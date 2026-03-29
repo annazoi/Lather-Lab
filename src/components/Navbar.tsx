@@ -2,10 +2,18 @@
 import React, { useState, useEffect } from 'react';
 import { Search, User, ShoppingBag, Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { useAuthStore } from '@/store/auth.store';
+
+import { usePathname } from 'next/navigation';
 
 export const Navbar = () => {
+	const pathname = usePathname();
+	const isDashboard = pathname?.startsWith('/dashboard');
+
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
+
+	const { isAuthenticated, user } = useAuthStore();
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -14,6 +22,8 @@ export const Navbar = () => {
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
+
+	if (isDashboard) return null;
 
 	return (
 		<nav
@@ -60,12 +70,15 @@ export const Navbar = () => {
 
 				{/* Utility Icons */}
 				<div className="flex space-x-5 items-center justify-end flex-1 lg:flex-none">
-					<button className="text-stone-600 hover:text-stone-900 transition-colors">
+					<Link href="/search" className="text-stone-600 hover:text-stone-900 transition-colors">
 						<Search size={18} />
-					</button>
-					<button className="hidden sm:block text-stone-600 hover:text-stone-900 transition-colors">
+					</Link>
+					<Link
+						href={isAuthenticated ? (user?.role === 'ADMIN' ? '/dashboard' : '/profile') : '/login'}
+						className="hidden sm:block text-stone-600 hover:text-stone-900 transition-colors"
+					>
 						<User size={18} />
-					</button>
+					</Link>
 					<button className="text-stone-600 hover:text-stone-900 transition-colors relative">
 						<ShoppingBag size={18} />
 						<span className="absolute -top-2 -right-2 bg-[#A8C0A0] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">

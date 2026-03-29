@@ -1,8 +1,12 @@
 'use client';
 import React from 'react';
 import { Instagram, Facebook, Ticket } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 export const Footer = () => {
+	const pathname = usePathname();
+	if (pathname?.startsWith('/dashboard')) return null;
+
 	const startYear = 2026;
 	const currentYear = new Date().getFullYear();
 	const yearDisplay = currentYear > startYear ? `${startYear} - ${currentYear}` : `${startYear}`;
@@ -36,7 +40,7 @@ export const Footer = () => {
 						<ul className="space-y-4 text-[12px] text-[#A5A29F]">
 							{['All Products', 'Facial Bars', 'Body Bars', 'Accessories', 'Gift Sets'].map((link) => (
 								<li key={link}>
-									<a href="#" className="hover:text-white transition-colors">
+									<a href="/collections" className="hover:text-white transition-colors">
 										{link}
 									</a>
 								</li>
@@ -50,7 +54,7 @@ export const Footer = () => {
 						<ul className="space-y-4 text-[12px] text-[#A5A29F]">
 							{['Our Story', 'Ingredients', 'Sustainability', 'Journal', 'Contact'].map((link) => (
 								<li key={link}>
-									<a href="#" className="hover:text-white transition-colors">
+									<a href="/philosophy" className="hover:text-white transition-colors">
 										{link}
 									</a>
 								</li>
