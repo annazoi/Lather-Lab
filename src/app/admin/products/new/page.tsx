@@ -27,8 +27,7 @@ export default function NewProductPage() {
       //   method: 'POST',
       //   body: JSON.stringify(formData),
       // });
-      console.log('Would save this product to DB:', formData);
-      alert('Product created (simulated)! Check console.');
+      alert('Product created (simulated)!');
     } catch (error) {
       console.error('Save error:', error);
     } finally {
