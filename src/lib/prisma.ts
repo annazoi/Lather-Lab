@@ -4,7 +4,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString && process.env.NODE_ENV === 'production') {
-	throw new Error('DATABASE_URL is not defined in the environment');
+	console.warn('[PRISMA_WARN]: DATABASE_URL is not defined in the environment. Prerendering will work with an empty state.');
 }
 const pool = new Pool({ connectionString });
 const adapter = new PrismaPg(pool);

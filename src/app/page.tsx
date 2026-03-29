@@ -4,9 +4,15 @@ import { Collections } from '@/components/Collections';
 import { Ingredients } from '@/components/Ingredients';
 import { Testimonials } from '@/components/Testimonials';
 import { productService } from '@/services/product.service';
+import { Product } from '@prisma/client';
 
 export default async function Home() {
-	const latestProducts = await productService.getLatestProducts(3);
+	let latestProducts: Product[] = [];
+	try {
+		latestProducts = await productService.getLatestProducts(3);
+	} catch (error) {
+		console.error('[BUILD_ERROR]: Failed to fetch products during build. Falling back to empty list.', error);
+	}
 
 	return (
 		<main className="bg-stone-50">
