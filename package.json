@@ -1,37 +1,34 @@
 {
-  "name": "lather-lab",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@prisma/adapter-pg": "^7.6.0",
-    "@prisma/client": "^7.6.0",
-    "clsx": "^2.1.0",
-    "dotenv": "^17.3.1",
-    "framer-motion": "^11.0.8",
-    "lucide-react": "^0.344.0",
-    "next": "14.1.0",
-    "pg": "^8.20.0",
-    "prisma": "^7.6.0",
-    "react": "^18",
-    "react-dom": "^18",
-    "tailwind-merge": "^2.2.1"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/pg": "^8.20.0",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "autoprefixer": "^10.4.27",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.0",
-    "postcss": "^8.5.8",
-    "tailwindcss": "^3.4.19",
-    "typescript": "^5"
-  }
+	"name": "lather-lab",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "prisma generate && next build",
+		"start": "next start",
+		"lint": "eslint",
+		"postinstall": "prisma generate"
+	},
+	"dependencies": {
+		"clsx": "^2.1.0",
+		"framer-motion": "^11.0.8",
+		"lucide-react": "^0.344.0",
+		"@prisma/client": "^7.6.0",
+		"next": "14.1.0",
+		"react": "^18",
+		"react-dom": "^18",
+		"tailwind-merge": "^2.2.1"
+	},
+	"devDependencies": {
+		"@types/node": "^20",
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"autoprefixer": "^10.4.27",
+		"eslint": "^8",
+		"prisma": "^7.6.0",
+		"eslint-config-next": "14.1.0",
+		"postcss": "^8.5.8",
+		"tailwindcss": "^3.4.19",
+		"typescript": "^5"
+	}
 }
