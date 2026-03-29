@@ -1,11 +1,6 @@
 {
-  "/not-found": "app/not-found.js",
-<<<<<<< HEAD
-  "/page": "app/page.js"
-=======
+  "/page": "app/page.js",
   "/collections/page": "app/collections/page.js",
   "/philosophy/page": "app/philosophy/page.js",
-  "/page": "app/page.js",
   "/contact/page": "app/contact/page.js"
->>>>>>> main
 }
