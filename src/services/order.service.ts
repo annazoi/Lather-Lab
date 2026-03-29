@@ -1,0 +1,33 @@
+import { orderRepository } from '@/repositories/order.repository';
+import { Order, OrderStatus } from '@prisma/client';
+
+export class OrderService {
+  async getAllOrders(): Promise<Order[]> {
+    try {
+      return await orderRepository.getAllOrders();
+    } catch (error) {
+      console.error('[ORDER_SERVICE_ERROR]: Fetch orders failed', error);
+      throw new Error('Could not fetch orders');
+    }
+  }
+
+  async updateStatus(id: string, status: OrderStatus): Promise<Order> {
+    try {
+      return await orderRepository.updateStatus(id, status);
+    } catch (error) {
+      console.error('[ORDER_SERVICE_ERROR]: Status update failed', error);
+      throw new Error('Could not update order status');
+    }
+  }
+
+  async getUserOrders(userId: string): Promise<Order[]> {
+    try {
+      return await orderRepository.getOrdersByUserId(userId);
+    } catch (error) {
+      console.error('[ORDER_SERVICE_ERROR]: Fetch customer orders failed', error);
+      throw new Error('Could not fetch order history');
+    }
+  }
+}
+
+export const orderService = new OrderService();

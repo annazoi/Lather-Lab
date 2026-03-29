@@ -4,11 +4,16 @@ import { Search, User, ShoppingBag, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/auth.store';
 
+import { usePathname } from 'next/navigation';
+
 export const Navbar = () => {
+	const pathname = usePathname();
+	const isDashboard = pathname?.startsWith('/dashboard');
+
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
 
-	const { isAuthenticated } = useAuthStore();
+	const { isAuthenticated, user } = useAuthStore();
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -17,6 +22,8 @@ export const Navbar = () => {
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
+
+	if (isDashboard) return null;
 
 	return (
 		<nav
@@ -67,7 +74,7 @@ export const Navbar = () => {
 						<Search size={18} />
 					</Link>
 					<Link
-						href={isAuthenticated ? '/dashboard' : '/login'}
+						href={isAuthenticated ? (user?.role === 'ADMIN' ? '/dashboard' : '/profile') : '/login'}
 						className="hidden sm:block text-stone-600 hover:text-stone-900 transition-colors"
 					>
 						<User size={18} />

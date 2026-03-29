@@ -1,41 +1,16 @@
 'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
-import soap1 from '@/assets/soap-1.png';
-import soap2 from '@/assets/soap-2.png';
-import soap3 from '@/assets/soap-3.png';
 import Image from 'next/image';
 import './style.css';
 import Link from 'next/link';
+import { Product } from '@prisma/client';
 
-const products = [
-	{
-		id: 1,
-		name: 'French Green Clay',
-		price: 18.0,
-		category: 'Purifying & Balancing',
-		img: soap1,
-		isBestSeller: false,
-	},
-	{
-		id: 2,
-		name: 'Activated Charcoal',
-		price: 20.0,
-		category: 'Deep Cleanse & Detox',
-		img: soap2,
-		isBestSeller: false,
-	},
-	{
-		id: 3,
-		name: 'Colloidal Oatmeal',
-		price: 18.0,
-		category: 'Soothing & Nourishing',
-		img: soap3,
-		isBestSeller: true,
-	},
-];
+interface CollectionsProps {
+	products: Product[];
+}
 
-export const Collections = () => {
+export const Collections = ({ products }: CollectionsProps) => {
 	return (
 		<section className="py-24 bg-[#23211F] text-stone-50">
 			<div className="max-w-[1200px] mx-auto px-6 lg:px-12">
@@ -79,8 +54,9 @@ export const Collections = () => {
 								)}
 								<div className="absolute inset-0 p-10 flex items-center justify-center">
 									<Image
-										src={product.img}
+										src={product.image}
 										alt={product.name}
+										fill
 										className="w-full h-full object-cover mix-blend-overlay opacity-80 group-hover:scale-105 transition-all duration-700"
 									/>
 								</div>
