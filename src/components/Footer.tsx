@@ -14,7 +14,7 @@ export const Footer = () => {
 					{/* Brand Col */}
 					<div className="lg:col-span-4 space-y-6 lg:pr-10">
 						<h3 className="text-[20px] font-serif tracking-[0.1em] flex items-center text-white mb-2">
-							TERRA <span className="font-serif italic font-normal px-1.5">&</span> LATHER
+							LATHER <span className="font-serif italic font-normal px-1.5">&</span> LAB
 						</h3>
 						<p className="text-[12px] text-[#A5A29F] leading-relaxed max-w-[280px]">
 							Artisanal skincare crafted with botanical intelligence. Pure, potent, and gentle on the earth.
@@ -82,7 +82,7 @@ export const Footer = () => {
 
 				{/* Bottom Bar */}
 				<div className="border-t border-[#3A3836] pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] text-[#716E6B]">
-					<p>© {yearDisplay} Terra & Lather. All rights reserved.</p>
+					<p>© {yearDisplay} Lather Lab. All rights reserved.</p>
 					<div className="flex space-x-8">
 						<a href="#" className="hover:text-[#A5A29F] transition-colors">
 							Privacy Policy

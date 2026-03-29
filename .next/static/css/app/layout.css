@@ -722,6 +722,12 @@ video {
 .mt-16 {
   margin-top: 4rem;
 }
+.mb-4 {
+  margin-bottom: 1rem;
+}
+.mb-12 {
+  margin-bottom: 3rem;
+}
 .block {
   display: block;
 }
@@ -845,6 +851,12 @@ video {
 .max-w-xl {
   max-width: 36rem;
 }
+.max-w-3xl {
+  max-width: 48rem;
+}
+.max-w-lg {
+  max-width: 32rem;
+}
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -865,6 +877,9 @@ video {
 }
 .cursor-pointer {
   cursor: pointer;
+}
+.resize-none {
+  resize: none;
 }
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -985,6 +1000,11 @@ video {
   margin-top: calc(4rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(4rem * var(--tw-space-y-reverse));
 }
+.space-x-6 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
 .overflow-hidden {
   overflow: hidden;
 }
@@ -993,6 +1013,9 @@ video {
 }
 .rounded-full {
   border-radius: 9999px;
+}
+.rounded-sm {
+  border-radius: 0.125rem;
 }
 .border {
   border-width: 1px;
@@ -1022,6 +1045,14 @@ video {
 .border-stone-200 {
   --tw-border-opacity: 1;
   border-color: rgb(231 229 228 / var(--tw-border-opacity, 1));
+}
+.border-\[\#363330\] {
+  --tw-border-opacity: 1;
+  border-color: rgb(54 51 48 / var(--tw-border-opacity, 1));
+}
+.border-\[\#e8ebe6\] {
+  --tw-border-opacity: 1;
+  border-color: rgb(232 235 230 / var(--tw-border-opacity, 1));
 }
 .border-b-transparent {
   border-bottom-color: transparent;
@@ -1114,6 +1145,9 @@ video {
 }
 .p-6 {
   padding: 1.5rem;
+}
+.p-8 {
+  padding: 2rem;
 }
 .px-1 {
   padding-left: 0.25rem;
@@ -1208,6 +1242,15 @@ video {
 .pt-20 {
   padding-top: 5rem;
 }
+.pb-24 {
+  padding-bottom: 6rem;
+}
+.pb-4 {
+  padding-bottom: 1rem;
+}
+.pt-32 {
+  padding-top: 8rem;
+}
 .text-left {
   text-align: left;
 }
@@ -1285,6 +1328,10 @@ video {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
 .font-\[800\] {
   font-weight: 800;
 }
@@ -1320,6 +1367,9 @@ video {
 }
 .leading-loose {
   line-height: 2;
+}
+.leading-\[1\.2\] {
+  line-height: 1.2;
 }
 .tracking-\[0\.15em\] {
   letter-spacing: 0.15em;
@@ -1646,6 +1696,10 @@ body {
     align-items: flex-end;
   }
 
+  .md\:p-12 {
+    padding: 3rem;
+  }
+
   .md\:text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
@@ -1739,6 +1793,10 @@ body {
 
   .lg\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .lg\:flex-row {

@@ -17,7 +17,7 @@ const dmSerif = DM_Serif_Display({
 });
 
 export const metadata: Metadata = {
-	title: 'TERRA & LATHER | Artisanal Soap E-Shop',
+	title: 'Lather Lab | Artisanal Soap E-Shop',
 	description:
 		'Experience the purity of 100% botanical, cold-processed soaps. Earth conscious skincare for the modern home.',
 };
@@ -31,9 +31,7 @@ export default function RootLayout({
 		<html lang="en" className={`${inter.variable} ${dmSerif.variable}`}>
 			<body className="font-sans antialiased text-stone-900 bg-stone-50 overflow-x-hidden min-h-screen flex flex-col">
 				<Navbar />
-				<div className="flex-1">
-					{children}
-				</div>
+				<div className="flex-1">{children}</div>
 				<Footer />
 			</body>
 		</html>

@@ -35,9 +35,7 @@ export const Navbar = () => {
 						href="/"
 						className="text-xl md:text-2xl font-serif text-stone-900 font-bold tracking-widest flex items-center space-x-1"
 					>
-						<span>TERRA</span>
-						<span className="font-serif italic font-normal px-1">&</span>
-						<span>LATHER</span>
+						<span>LATHER LAB</span>
 					</a>
 				</div>
 
@@ -46,8 +44,9 @@ export const Navbar = () => {
 					{[
 						{ name: 'HOME', href: '/' },
 						{ name: 'PHILOSOPHY', href: '/philosophy' },
-						{ name: 'COLLECTIONS', href: '/#collections' },
-						{ name: 'INGREDIENTS', href: '/#ingredients' },
+						{ name: 'COLLECTIONS', href: '/collections' },
+						{ name: 'INGREDIENTS', href: '/ingredients' },
+						{ name: 'CONTACT', href: '/contact' },
 					].map((link) => (
 						<Link
 							key={link.name}
@@ -83,8 +82,8 @@ export const Navbar = () => {
 						{[
 							{ name: 'HOME', href: '/' },
 							{ name: 'PHILOSOPHY', href: '/philosophy' },
-							{ name: 'COLLECTIONS', href: '/#collections' },
-							{ name: 'INGREDIENTS', href: '/#ingredients' },
+							{ name: 'COLLECTIONS', href: '/collections' },
+							{ name: 'CONTACT', href: '/contact' },
 						].map((link) => (
 							<Link
 								key={link.name}

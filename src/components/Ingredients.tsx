@@ -38,7 +38,7 @@ export const Ingredients = () => {
 							Completely Nourished <br className="hidden lg:block" /> Skin Care
 						</h2>
 						<p className="text-[#848581] leading-relaxed text-[14.5px] font-sans max-w-[440px]">
-							We believe that what goes on your body goes in your body. That's why every Terra & Lather bar is
+							We believe that what goes on your body goes in your body. That's why every Lather Lab bar is
 							crafted from unrefined plant butters, cold-pressed oils, and pure essential oils.
 						</p>
 					</div>
