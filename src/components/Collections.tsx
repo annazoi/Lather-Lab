@@ -6,6 +6,7 @@ import soap2 from '@/assets/soap-2.png';
 import soap3 from '@/assets/soap-3.png';
 import Image from 'next/image';
 import './style.css';
+import Link from 'next/link';
 
 const products = [
 	{
@@ -49,12 +50,12 @@ export const Collections = () => {
 								Curated Essentials
 							</h2>
 						</div>
-						<a
-							href="#"
+						<Link
+							href="/collections"
 							className="pb-1 text-[10px] uppercase font-bold tracking-[0.2em] text-[#86967E] hover:text-[#F9F8F6] transition-colors"
 						>
 							View All Products
-						</a>
+						</Link>
 					</div>
 					{/* Divider */}
 					<div className="w-full h-[1px] bg-[#363330]" />

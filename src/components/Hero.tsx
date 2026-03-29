@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import heroImg from '@/assets/hero.jpg';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export const Hero = () => {
 	return (
@@ -11,7 +12,7 @@ export const Hero = () => {
 			<div className="hidden lg:block absolute top-0 right-0 w-1/2 h-full bg-[#E5ECE3]" />
 
 			{/* Left Content (Text) */}
-			<div className="relative w-full lg:w-1/2 flex items-center justify-center lg:justify-end px-6 lg:px-16 py-16 lg:py-0">
+			<div className="relative w-full lg:w-1/2 flex items-center bg-[#fafaf9] justify-center lg:justify-end px-6 lg:px-16 py-16 lg:py-0">
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
@@ -31,12 +32,18 @@ export const Hero = () => {
 					</p>
 
 					<div className="flex flex-col sm:flex-row gap-4 pt-4">
-						<button className="px-8 py-4 bg-[#1C1917] text-white text-[11px] font-bold uppercase tracking-widest hover:bg-[#7A9877] transition-all duration-300">
+						<Link
+							href="/collections"
+							className="px-8 py-4 bg-[#1C1917] text-white text-[11px] font-bold uppercase tracking-widest hover:bg-[#7A9877] transition-all duration-300"
+						>
 							Explore Collection
-						</button>
-						<button className="px-8 py-4 border border-stone-300 bg-white text-[#1C1917] text-[11px] font-bold uppercase tracking-widest hover:border-[#1C1917] transition-all duration-300">
+						</Link>
+						<Link
+							href="/philosophy"
+							className="px-8 py-4 border border-stone-300 bg-white text-[#1C1917] text-[11px] font-bold uppercase tracking-widest hover:border-[#1C1917] transition-all duration-300"
+						>
 							Our Philosophy
-						</button>
+						</Link>
 					</div>
 				</motion.div>
 			</div>
