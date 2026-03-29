@@ -17,12 +17,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/philosophy/page.js"
     ],
-    "/collections/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/collections/page.css",
-      "static/chunks/app/collections/page.js"
-    ],
     "/contact/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
