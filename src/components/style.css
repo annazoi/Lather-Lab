@@ -1,0 +1,4 @@
+.product-card:hover img {
+	mix-blend-mode: normal;
+	transition: all 0.5s ease-in-out;
+}

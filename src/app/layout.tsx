@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 // import { Inter, DM_Serif_Display } from "next-kit/google";
 import { Inter, DM_Serif_Display } from 'next/font/google';
 import './globals.css';
+import { Navbar } from '@/components/Navbar';
+import { Footer } from '@/components/Footer';
 
 const inter = Inter({
 	subsets: ['latin'],
@@ -27,7 +29,13 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" className={`${inter.variable} ${dmSerif.variable}`}>
-			<body className="font-sans antialiased text-stone-900 bg-stone-50">{children}</body>
+			<body className="font-sans antialiased text-stone-900 bg-stone-50 overflow-x-hidden min-h-screen flex flex-col">
+				<Navbar />
+				<div className="flex-1">
+					{children}
+				</div>
+				<Footer />
+			</body>
 		</html>
 	);
 }
