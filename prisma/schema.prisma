@@ -7,11 +7,42 @@ datasource db {
 }
 
 model Product {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(cuid())
   name         String
   price        Float
   category     String
   image        String
+  images       String[] @default([])
+  discount     Float?   // percentage discount (0-100)
+  isActive     Boolean  @default(true)
   isBestSeller Boolean  @default(false)
   createdAt    DateTime @default(now())
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      Role     @default(CLIENT)
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id        String      @id @default(cuid())
+  userId    String
+  status    OrderStatus @default(PENDING)
+  total     Float
+  createdAt DateTime    @default(now())
+}
+
+enum Role {
+  CLIENT
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  SHIPPED
+  DELIVERED
+  CANCELLED
 }

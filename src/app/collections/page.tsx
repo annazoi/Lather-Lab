@@ -1,42 +1,33 @@
 import React from 'react';
 import Image from 'next/image';
-import soap1 from '@/assets/soap-1.png';
-import soap2 from '@/assets/soap-2.png';
-import soap3 from '@/assets/soap-3.png';
-import '@/components/style.css'; // Inheriting product-card styles
+import '@/components/style.css';
 
-import { prisma } from '@/lib/prisma';
+import { productService } from '@/services/product.service';
+import { ProductSort } from '@/types/product';
 import Link from 'next/link';
-
-// Image map for static assets based on DB image string
-const imageMap: Record<string, any> = {
-	'soap-1.png': soap1,
-	'soap-2.png': soap2,
-	'soap-3.png': soap3,
-};
+import { Product } from '@prisma/client';
+import { getProductImageUrl } from '@/utils/product-image.utils';
 
 export const dynamic = 'force-dynamic';
 
-export default async function CollectionsPage({
-	searchParams,
-}: {
-	searchParams: { sort?: string; category?: string };
-}) {
-	const sort = searchParams?.sort;
+interface CollectionsPageProps {
+	searchParams: {
+		sort?: string;
+		category?: string;
+	};
+}
+
+export default async function CollectionsPage({ searchParams }: CollectionsPageProps) {
+	const sort = searchParams?.sort as ProductSort;
 	const category = searchParams?.category;
 
-	// Build Prisma query operations
-	const queryOpts: any = {};
-
-	if (category) {
-		queryOpts.where = { category: decodeURIComponent(category) };
+	let products: Product[] = [];
+	try {
+		products = await productService.fetchProducts({ sort, category });
+	} catch (error) {
+		console.error('Collections page error:', error);
+		// In a real app, maybe show an error UI or empty state
 	}
-
-	if (sort === 'price_asc') queryOpts.orderBy = { price: 'asc' };
-	else if (sort === 'price_desc') queryOpts.orderBy = { price: 'desc' };
-	else if (sort === 'name_asc') queryOpts.orderBy = { name: 'asc' };
-
-	const products = await prisma.product.findMany(queryOpts);
 
 	return (
 		<main className="min-h-screen pt-32 pb-24 bg-[#23211F] text-stone-50">
@@ -60,25 +51,48 @@ export default async function CollectionsPage({
 						<div className="group relative">
 							<button className="hover:text-[#F9F8F6] transition-colors">Sort By ↓</button>
 							<div className="absolute top-full right-0 mt-2 bg-[#1C1917] border border-[#363330] p-4 hidden group-hover:flex flex-col gap-3 min-w-[120px] z-50">
-								<Link href="?sort=price_asc" className="hover:text-white transition-colors">Price: Low to High</Link>
-								<Link href="?sort=price_desc" className="hover:text-white transition-colors">Price: High to Low</Link>
-								<Link href="?sort=name_asc" className="hover:text-white transition-colors">Name: A-Z</Link>
+								<Link href="?sort=price_asc" className="hover:text-white transition-colors">
+									Price: Low to High
+								</Link>
+								<Link href="?sort=price_desc" className="hover:text-white transition-colors">
+									Price: High to Low
+								</Link>
+								<Link href="?sort=name_asc" className="hover:text-white transition-colors">
+									Name: A-Z
+								</Link>
 							</div>
 						</div>
 						<div className="group relative">
 							<button className="hover:text-[#F9F8F6] transition-colors">Filter</button>
 							<div className="absolute top-full right-0 mt-2 bg-[#1C1917] border border-[#363330] p-4 hidden group-hover:flex flex-col gap-3 min-w-[160px] z-50">
-								<Link href="/collections" className="hover:text-white transition-colors">All Categories</Link>
-								<Link href="?category=Purifying%20%26%20Balancing" className="hover:text-white transition-colors">Purifying</Link>
-								<Link href="?category=Deep%20Cleanse%20%26%20Detox" className="hover:text-white transition-colors">Detox</Link>
-								<Link href="?category=Soothing%20%26%20Nourishing" className="hover:text-white transition-colors">Nourishing</Link>
+								<Link href="/collections" className="hover:text-white transition-colors">
+									All Categories
+								</Link>
+								<Link
+									href="?category=Purifying%20%26%20Balancing"
+									className="hover:text-white transition-colors"
+								>
+									Purifying
+								</Link>
+								<Link
+									href="?category=Deep%20Cleanse%20%26%20Detox"
+									className="hover:text-white transition-colors"
+								>
+									Detox
+								</Link>
+								<Link
+									href="?category=Soothing%20%26%20Nourishing"
+									className="hover:text-white transition-colors"
+								>
+									Nourishing
+								</Link>
 							</div>
 						</div>
 					</div>
 				</div>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-					{products.map((product: any) => (
+					{products.map((product) => (
 						<div key={product.id} className="group cursor-pointer flex flex-col">
 							<div className="relative aspect-square overflow-hidden bg-[#2D2A28] mb-6 flex flex-col justify-end product-card">
 								{product.isBestSeller && (
@@ -88,8 +102,11 @@ export default async function CollectionsPage({
 								)}
 								<div className="absolute inset-0 p-10 flex items-center justify-center">
 									<Image
-										src={imageMap[product.image] || soap1}
+										src={getProductImageUrl(product.image)}
 										alt={product.name}
+										width={500}
+										height={500}
+										priority={true}
 										className="w-full h-full object-cover mix-blend-overlay opacity-80 group-hover:scale-105 transition-all duration-700"
 									/>
 								</div>

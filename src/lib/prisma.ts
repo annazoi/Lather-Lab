@@ -12,4 +12,6 @@ const globalForPrisma = global as unknown as {
 
 export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter });
 
+console.log('PRISMA CLIENT MODELS:', Object.keys(prisma).filter(k => !k.startsWith('_')));
+
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
