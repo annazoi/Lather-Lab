@@ -14,12 +14,14 @@ export const Footer = () => {
 	return (
 		<footer className="bg-[#23211F] text-[#F9F8F6] pt-24 pb-12 w-full">
 			<div className="max-w-[1200px] mx-auto px-6 lg:px-12">
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-20">
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-20 text-center md:text-left">
 					{/* Brand Col */}
-					<div className="lg:col-span-4 space-y-6 lg:pr-10">
-						<h3 className="text-[20px] font-serif tracking-[0.1em] flex items-center text-white mb-2">
-							LATHER <span className="font-serif italic font-normal px-1.5">&</span> LAB
-						</h3>
+					<div className="lg:col-span-4 space-y-6 lg:pr-10 items-center md:items-start flex flex-col">
+						<a href="/">
+							<h3 className="text-[20px] font-serif tracking-[0.1em] flex items-center text-white mb-2">
+								LATHER LAB
+							</h3>
+						</a>
 						<p className="text-[12px] text-[#A5A29F] leading-relaxed max-w-[280px]">
 							Artisanal skincare crafted with botanical intelligence. Pure, potent, and gentle on the earth.
 						</p>
@@ -35,7 +37,7 @@ export const Footer = () => {
 					</div>
 
 					{/* Shop Col */}
-					<div className="lg:col-span-2 space-y-6 lg:pl-10">
+					<div className="lg:col-span-2 space-y-6 lg:pl-10 ">
 						<h4 className="text-[12px] font-[800] uppercase tracking-[0.2em] text-[#F9F8F6]">Shop</h4>
 						<ul className="space-y-4 text-[12px] text-[#A5A29F]">
 							{['All Products', 'Facial Bars', 'Body Bars', 'Accessories', 'Gift Sets'].map((link) => (
@@ -63,7 +65,7 @@ export const Footer = () => {
 					</div>
 
 					{/* Newsletter Col */}
-					<div className="lg:col-span-4 space-y-6 lg:pl-10">
+					<div className="lg:col-span-4 space-y-6 lg:pl-10 flex flex-col items-center md:items-start">
 						<h4 className="text-[12px] font-[800] uppercase tracking-[0.2em] text-[#F9F8F6]">Newsletter</h4>
 						<p className="text-[12px] text-[#A5A29F] leading-relaxed max-w-[280px]">
 							Subscribe to receive updates, access to exclusive deals, and more.
