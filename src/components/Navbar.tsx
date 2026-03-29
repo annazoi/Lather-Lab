@@ -70,12 +70,12 @@ export const Navbar = () => {
 
 				{/* Utility Icons */}
 				<div className="flex space-x-5 items-center justify-end flex-1 lg:flex-none">
-					<Link href="/search" className="text-stone-600 hover:text-stone-900 transition-colors">
+					<Link href="/search" className="hidden sm:block text-stone-600 hover:text-stone-900 transition-colors">
 						<Search size={18} />
 					</Link>
 					<Link
 						href={isAuthenticated ? (user?.role === 'ADMIN' ? '/dashboard' : '/profile') : '/login'}
-						className="hidden sm:block text-stone-600 hover:text-stone-900 transition-colors"
+						className="text-stone-600 hover:text-stone-900 transition-colors"
 					>
 						<User size={18} />
 					</Link>
@@ -91,18 +91,19 @@ export const Navbar = () => {
 			{/* Mobile Menu Overlay */}
 			{isMenuOpen && (
 				<div className="lg:hidden absolute top-20 left-0 w-full bg-white border-b border-stone-100 shadow-lg px-6 py-6">
-					<div className="flex flex-col space-y-6">
+					<div className="flex flex-col md:space-y-6 space-y-12 md:mb-0 mb-6">
 						{[
 							{ name: 'HOME', href: '/' },
 							{ name: 'PHILOSOPHY', href: '/philosophy' },
 							{ name: 'COLLECTIONS', href: '/collections' },
 							{ name: 'CONTACT', href: '/contact' },
+							{ name: 'SEARCH', href: '/search', className: 'sm:hidden' },
 						].map((link) => (
 							<Link
 								key={link.name}
 								href={link.href}
 								onClick={() => setIsMenuOpen(false)}
-								className="text-xs font-sans font-semibold tracking-[0.2em] text-stone-500 hover:text-stone-900"
+								className="text-xs text-center md:text-left font-sans font-semibold tracking-[0.2em] text-stone-500 hover:text-stone-900"
 							>
 								{link.name}
 							</Link>

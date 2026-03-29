@@ -43,13 +43,13 @@ export default function NewProductPage() {
 
 	return (
 		<div className="max-w-4xl">
-			<header className="mb-12">
-				<h1 className="text-4xl font-serif mb-2 text-[#F9F8F6]">Add New Product</h1>
-				<p className="text-[11px] uppercase tracking-[0.2em] text-[#86967E] font-bold">Catalogue Expansion</p>
+			<header className="mb-8 md:mb-12">
+				<h1 className="text-2xl md:text-4xl font-serif mb-2 text-[#F9F8F6]">Add New Product</h1>
+				<p className="text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-[#86967E] font-bold">Catalogue Expansion</p>
 			</header>
 
-			<div className="bg-[#1C1917] border border-[#363330] rounded-xl p-12">
-				<form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-10">
+			<div className="bg-[#1C1917] border border-[#363330] rounded-xl p-6 md:p-12">
+				<form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
 					<div className="space-y-8">
 						<div className="space-y-2">
 							<label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">

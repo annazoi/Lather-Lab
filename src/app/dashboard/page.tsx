@@ -3,15 +3,15 @@ import { ShoppingBag, Users, TrendingUp, Package, AlertCircle } from 'lucide-rea
 
 export default async function DashboardPage() {
   return (
-    <div className="space-y-12 animate-in fade-in duration-700">
-      <header className="mb-14">
-        <h1 className="text-5xl font-serif mb-4 text-[#F9F8F6]">Studio Overview</h1>
-        <p className="text-[12px] uppercase tracking-[0.25em] text-[#86967E] font-bold">
+    <div className="space-y-8 md:space-y-12 animate-in fade-in duration-700">
+      <header className="mb-8 md:mb-14">
+        <h1 className="text-3xl md:text-5xl font-serif mb-4 text-[#F9F8F6]">Studio Overview</h1>
+        <p className="text-[10px] md:text-[12px] uppercase tracking-[0.25em] text-[#86967E] font-bold">
           Performance Monitoring & Management
         </p>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
         {[
           { label: 'Total Revenue', value: '$12,450.00', icon: TrendingUp, color: 'text-green-400' },
           { label: 'Total Orders', value: '1,502', icon: ShoppingBag, color: 'text-stone-400' },
