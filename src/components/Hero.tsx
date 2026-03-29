@@ -12,7 +12,7 @@ export const Hero = () => {
 			<div className="hidden lg:block absolute top-0 right-0 w-1/2 h-full bg-[#E5ECE3]" />
 
 			{/* Left Content (Text) */}
-			<div className="relative w-full lg:w-1/2 flex items-center justify-center lg:justify-end px-6 lg:px-16 py-16 lg:py-0">
+			<div className="relative w-full lg:w-1/2 flex items-center bg-[#fafaf9] justify-center lg:justify-end px-6 lg:px-16 py-16 lg:py-0">
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}

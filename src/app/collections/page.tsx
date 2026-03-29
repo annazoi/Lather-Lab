@@ -5,58 +5,39 @@ import soap2 from '@/assets/soap-2.png';
 import soap3 from '@/assets/soap-3.png';
 import '@/components/style.css'; // Inheriting product-card styles
 
-const allProducts = [
-	{
-		id: 1,
-		name: 'French Green Clay',
-		price: 18.0,
-		category: 'Purifying & Balancing',
-		img: soap1,
-		isBestSeller: false,
-	},
-	{
-		id: 2,
-		name: 'Activated Charcoal',
-		price: 20.0,
-		category: 'Deep Cleanse & Detox',
-		img: soap2,
-		isBestSeller: false,
-	},
-	{
-		id: 3,
-		name: 'Colloidal Oatmeal',
-		price: 18.0,
-		category: 'Soothing & Nourishing',
-		img: soap3,
-		isBestSeller: true,
-	},
-	{
-		id: 4,
-		name: 'Lavender & Sage',
-		price: 22.0,
-		category: 'Calming & Relaxing',
-		img: soap1,
-		isBestSeller: false,
-	},
-	{
-		id: 5,
-		name: 'Wild Rose & Rosehip',
-		price: 24.0,
-		category: 'Hydrating & Anti-Aging',
-		img: soap2,
-		isBestSeller: true,
-	},
-	{
-		id: 6,
-		name: 'Cedar & Sea Salt',
-		price: 18.0,
-		category: 'Exfoliating & Refreshing',
-		img: soap3,
-		isBestSeller: false,
-	},
-];
+import { prisma } from '@/lib/prisma';
+import Link from 'next/link';
 
-export default function CollectionsPage() {
+// Image map for static assets based on DB image string
+const imageMap: Record<string, any> = {
+	'soap-1.png': soap1,
+	'soap-2.png': soap2,
+	'soap-3.png': soap3,
+};
+
+export const dynamic = 'force-dynamic';
+
+export default async function CollectionsPage({
+	searchParams,
+}: {
+	searchParams: { sort?: string; category?: string };
+}) {
+	const sort = searchParams?.sort;
+	const category = searchParams?.category;
+
+	// Build Prisma query operations
+	const queryOpts: any = {};
+
+	if (category) {
+		queryOpts.where = { category: decodeURIComponent(category) };
+	}
+
+	if (sort === 'price_asc') queryOpts.orderBy = { price: 'asc' };
+	else if (sort === 'price_desc') queryOpts.orderBy = { price: 'desc' };
+	else if (sort === 'name_asc') queryOpts.orderBy = { name: 'asc' };
+
+	const products = await prisma.product.findMany(queryOpts);
+
 	return (
 		<main className="min-h-screen pt-32 pb-24 bg-[#23211F] text-stone-50">
 			<div className="max-w-[1200px] mx-auto px-6 lg:px-12">
@@ -74,15 +55,30 @@ export default function CollectionsPage() {
 
 				{/* Filters / Sort Bar */}
 				<div className="flex justify-between items-center mb-10 pb-4 border-b border-[#363330] text-[10px] uppercase font-bold tracking-[0.2em] text-[#86967E]">
-					<span>{allProducts.length} Products</span>
+					<span>{products.length} Products</span>
 					<div className="flex space-x-6">
-						<button className="hover:text-[#F9F8F6] transition-colors">Sort By ↓</button>
-						<button className="hover:text-[#F9F8F6] transition-colors">Filter</button>
+						<div className="group relative">
+							<button className="hover:text-[#F9F8F6] transition-colors">Sort By ↓</button>
+							<div className="absolute top-full right-0 mt-2 bg-[#1C1917] border border-[#363330] p-4 hidden group-hover:flex flex-col gap-3 min-w-[120px] z-50">
+								<Link href="?sort=price_asc" className="hover:text-white transition-colors">Price: Low to High</Link>
+								<Link href="?sort=price_desc" className="hover:text-white transition-colors">Price: High to Low</Link>
+								<Link href="?sort=name_asc" className="hover:text-white transition-colors">Name: A-Z</Link>
+							</div>
+						</div>
+						<div className="group relative">
+							<button className="hover:text-[#F9F8F6] transition-colors">Filter</button>
+							<div className="absolute top-full right-0 mt-2 bg-[#1C1917] border border-[#363330] p-4 hidden group-hover:flex flex-col gap-3 min-w-[160px] z-50">
+								<Link href="/collections" className="hover:text-white transition-colors">All Categories</Link>
+								<Link href="?category=Purifying%20%26%20Balancing" className="hover:text-white transition-colors">Purifying</Link>
+								<Link href="?category=Deep%20Cleanse%20%26%20Detox" className="hover:text-white transition-colors">Detox</Link>
+								<Link href="?category=Soothing%20%26%20Nourishing" className="hover:text-white transition-colors">Nourishing</Link>
+							</div>
+						</div>
 					</div>
 				</div>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-					{allProducts.map((product) => (
+					{products.map((product: any) => (
 						<div key={product.id} className="group cursor-pointer flex flex-col">
 							<div className="relative aspect-square overflow-hidden bg-[#2D2A28] mb-6 flex flex-col justify-end product-card">
 								{product.isBestSeller && (
@@ -92,7 +88,7 @@ export default function CollectionsPage() {
 								)}
 								<div className="absolute inset-0 p-10 flex items-center justify-center">
 									<Image
-										src={product.img}
+										src={imageMap[product.image] || soap1}
 										alt={product.name}
 										className="w-full h-full object-cover mix-blend-overlay opacity-80 group-hover:scale-105 transition-all duration-700"
 									/>
