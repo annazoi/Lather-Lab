@@ -7,6 +7,7 @@ export const productSchema = yup.object().shape({
   image: yup.string().required('Image path or URL is required'),
   isActive: yup.boolean().default(true),
   isBestSeller: yup.boolean().default(false),
+  quantity: yup.number().min(0, 'Quantity must be non-negative').default(0),
 });
 
 export const discountSchema = yup.object().shape({

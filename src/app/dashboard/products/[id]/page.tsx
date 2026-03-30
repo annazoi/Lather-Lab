@@ -17,7 +17,8 @@ export default function EditProductPage() {
     category: '',
     image: '',
     isActive: true,
-    isBestSeller: false
+    isBestSeller: false,
+    quantity: 0
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -36,7 +37,8 @@ export default function EditProductPage() {
           category: data.category,
           image: data.image,
           isActive: data.isActive,
-          isBestSeller: data.isBestSeller
+          isBestSeller: data.isBestSeller,
+          quantity: data.quantity || 0
         });
       } catch (err) {
         alert('Could not load product details');
@@ -62,7 +64,10 @@ export default function EditProductPage() {
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) throw new Error('Failed to update product');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update product');
+      }
 
       router.push('/dashboard/products');
       router.refresh();
@@ -102,7 +107,7 @@ export default function EditProductPage() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
               <div className="space-y-2">
                 <label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">Price ($)</label>
                 <input 
@@ -115,6 +120,17 @@ export default function EditProductPage() {
                 />
               </div>
               <div className="space-y-2">
+                <label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">Stock Quantity</label>
+                <input 
+                  type="number" 
+                  value={formData.quantity}
+                  required
+                  min="0"
+                  className="w-full bg-transparent border-b border-[#363330] py-3 text-[#F9F8F6] font-sans focus:border-[#86967E] outline-none transition-colors"
+                  onChange={(e) => setFormData({...formData, quantity: parseInt(e.target.value)})}
+                />
+              </div>
+              <div className="space-y-2 col-span-2 md:col-span-1">
                 <label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">Category</label>
                 <select 
                   value={formData.category}

@@ -13,6 +13,7 @@ export default function NewProductPage() {
 		image: '',
 		isActive: true,
 		isBestSeller: false,
+		quantity: 0,
 	});
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
@@ -30,7 +31,10 @@ export default function NewProductPage() {
 				body: JSON.stringify(formData),
 			});
 
-			if (!response.ok) throw new Error('Failed to create product');
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw new Error(errorData.error || 'Failed to create product');
+			}
 
 			router.push('/dashboard/products');
 			router.refresh();
@@ -45,7 +49,9 @@ export default function NewProductPage() {
 		<div className="max-w-4xl">
 			<header className="mb-8 md:mb-12">
 				<h1 className="text-2xl md:text-4xl font-serif mb-2 text-[#F9F8F6]">Add New Product</h1>
-				<p className="text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-[#86967E] font-bold">Catalogue Expansion</p>
+				<p className="text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-[#86967E] font-bold">
+					Catalogue Expansion
+				</p>
 			</header>
 
 			<div className="bg-[#1C1917] border border-[#363330] rounded-xl p-6 md:p-12">
@@ -63,7 +69,7 @@ export default function NewProductPage() {
 							/>
 						</div>
 
-						<div className="grid grid-cols-2 gap-8">
+						<div className="grid grid-cols-2 md:grid-cols-3 gap-8">
 							<div className="space-y-2">
 								<label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">
 									Price ($)
@@ -76,7 +82,8 @@ export default function NewProductPage() {
 									onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
 								/>
 							</div>
-							<div className="space-y-2">
+
+							<div className="space-y-2 col-span-2 md:col-span-1">
 								<label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">
 									Category
 								</label>
@@ -90,6 +97,19 @@ export default function NewProductPage() {
 									<option value="Soothing & Nourishing">Nourishing</option>
 								</select>
 							</div>
+						</div>
+
+						<div className="space-y-2 max-w-[19rem] md:max-w-[7.5rem]">
+							<label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">
+								Stock Quantity
+							</label>
+							<input
+								type="number"
+								required
+								min="0"
+								className="w-full bg-transparent border-b border-[#363330] py-3 text-[#F9F8F6] font-sans focus:border-[#86967E] outline-none transition-colors"
+								onChange={(e) => setFormData({ ...formData, quantity: parseInt(e.target.value) })}
+							/>
 						</div>
 
 						<div className="flex items-center space-x-6 pt-4">
