@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Edit2, Trash2, Plus, Minus, Loader2 } from 'lucide-react';
+import { Edit2, Trash2, Plus, Minus, Loader2, Eye } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -164,6 +164,14 @@ export function ProductTable({
                 <td className="px-6 md:px-10 py-7 text-right">
                   <div className="flex justify-end space-x-3 md:space-x-6">
                     <Link 
+                      href={`/products/${product.id}`} 
+                      target="_blank"
+                      className="p-2 md:p-3 text-stone-500 hover:text-[#86967E] hover:bg-[#2D2A28] rounded-full transition-all"
+                      title="View Overview"
+                    >
+                      <Eye size={16} />
+                    </Link>
+                    <Link 
                       href={`/dashboard/products/${product.id}`} 
                       className="p-2 md:p-3 text-stone-500 hover:text-white hover:bg-[#2D2A28] rounded-full transition-all"
                       title="Edit Entity"
@@ -267,6 +275,13 @@ export function ProductTable({
               </div>
               
               <div className="flex space-x-2">
+                <Link 
+                  href={`/products/${product.id}`} 
+                  target="_blank"
+                  className="p-2 text-stone-500 hover:text-[#86967E]"
+                >
+                  <Eye size={16} />
+                </Link>
                 <Link 
                   href={`/dashboard/products/${product.id}`} 
                   className="p-2 text-stone-500 hover:text-white"

@@ -6,10 +6,27 @@ import { useRouter } from 'next/navigation';
 import { ShoppingBag, User, Package, LogOut, ChevronRight, Heart, Trash2, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 
+interface FavoriteProduct {
+	id: string;
+	name: string;
+	category: string;
+	price: number;
+	salePrice: number | null;
+	discount: number | null;
+	image: string;
+}
+
+interface Order {
+	id: string;
+	createdAt: string;
+	status: string;
+	total: number;
+}
+
 export default function ProfilePage() {
 	const { user, isAuthenticated, logout } = useAuthStore();
-	const [orders, setOrders] = useState<any[]>([]);
-	const [favorites, setFavorites] = useState<any[]>([]);
+	const [orders, setOrders] = useState<Order[]>([]);
+	const [favorites, setFavorites] = useState<FavoriteProduct[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [favLoading, setFavLoading] = useState(true);
 	const router = useRouter();
@@ -36,7 +53,7 @@ export default function ProfilePage() {
 
 		async function fetchFavorites() {
 			try {
-				const res = await fetch('/api/profile/favorites');
+				const res = await fetch('/api/profile/favorites', { credentials: 'include' });
 				if (res.ok) {
 					const data = await res.json();
 					setFavorites(data);
@@ -62,6 +79,7 @@ export default function ProfilePage() {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ productId }),
+				credentials: 'include',
 			});
 			if (res.ok) {
 				setFavorites((prev) => prev.filter((p) => p.id !== productId));
@@ -81,7 +99,6 @@ export default function ProfilePage() {
 	return (
 		<main className="min-h-screen pt-40 pb-24 bg-[#23211F] text-[#F9F8F6]">
 			<div className="max-w-[1200px] mx-auto px-10">
-				{/* Header Region */}
 				<header className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#363330] pb-12 mb-16 gap-8 animate-in fade-in duration-1000">
 					<div>
 						<h1 className="text-5xl font-serif mb-4 tracking-tight">Your Profile</h1>
@@ -99,7 +116,6 @@ export default function ProfilePage() {
 				</header>
 
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-					{/* Personal Info Column */}
 					<div className="lg:col-span-1 space-y-10 animate-in fade-in slide-in-from-left-4 duration-700">
 						<div className="bg-[#1C1917] border border-[#363330] p-10 rounded-xl group hover:border-[#86967E] transition-all">
 							<div className="bg-[#86967E] w-14 h-14 rounded-full flex items-center justify-center mb-8 shadow-2xl">
@@ -126,8 +142,8 @@ export default function ProfilePage() {
 
 						<div className="p-8 bg-white/[0.02] border border-[#363330]/50 rounded-xl">
 							<p className="text-[13px] font-serif italic text-stone-400 text-center leading-relaxed">
-								"Crafting high-end artisanal products is a commitment to timeless quality and sensory
-								excellence."
+								&ldquo;Crafting high-end artisanal products is a commitment to timeless quality and sensory
+								excellence.&rdquo;
 							</p>
 						</div>
 					</div>
@@ -154,7 +170,7 @@ export default function ProfilePage() {
 							) : orders.length === 0 ? (
 								<div className="flex flex-col items-center justify-center h-60 text-center">
 									<ShoppingBag size={40} className="text-stone-700 mb-6 opacity-30" />
-									<p className="text-stone-400 font-serif mb-6">You haven't made any acquisitions yet.</p>
+									<p className="text-stone-400 font-serif mb-6">You haven&apos;t made any acquisitions yet.</p>
 									<Link
 										href="/collections"
 										className="bg-[#86967E] text-white px-10 py-3.5 text-[11px] uppercase font-bold tracking-[0.2em] hover:bg-white hover:text-black transition-all"
@@ -200,9 +216,8 @@ export default function ProfilePage() {
 							)}
 						</div>
 
-						{/* Favorites Section - Only for Customers */}
 						{user?.role === 'CLIENT' && (
-							<div className="bg-[#1C1917] border border-[#363330] p-10 rounded-xl overflow-hidden min-h-[400px] mt-10 animate-in fade-in duration-1000 delay-300">
+							<div className="bg-[#1C1917] border border-[#363330] p-10 rounded-xl overflow-hidden min-h-[400px] animate-in fade-in duration-1000 delay-300">
 								<header className="flex items-center justify-between mb-10 border-b border-[#363330] pb-6">
 									<div className="flex items-center space-x-3">
 										<Heart size={18} className="text-[#86967E] fill-[#86967E]/20" />
@@ -222,7 +237,9 @@ export default function ProfilePage() {
 								) : favorites.length === 0 ? (
 									<div className="flex flex-col items-center justify-center h-60 text-center">
 										<Heart size={40} className="text-stone-700 mb-6 opacity-30" />
-										<p className="text-stone-400 font-serif mb-6">Your curated selection is currently empty.</p>
+										<p className="text-stone-400 font-serif mb-6">
+											Your curated selection is currently empty.
+										</p>
 										<Link
 											href="/collections"
 											className="border border-[#363330] text-stone-400 px-10 py-3.5 text-[11px] uppercase font-bold tracking-[0.2em] hover:border-[#86967E] hover:text-[#86967E] transition-all"
@@ -246,6 +263,12 @@ export default function ProfilePage() {
 													<div className="absolute inset-0 bg-gradient-to-t from-[#1C1917] via-transparent to-transparent opacity-60" />
 												</div>
 
+												{product.discount && (
+													<div className="absolute top-4 left-4 z-10 bg-[#86967E] text-white text-[9px] font-bold px-3 py-1 uppercase tracking-wider">
+														-{product.discount}% Sale
+													</div>
+												)}
+
 												<div className="absolute top-4 right-4 z-10">
 													<button
 														onClick={() => handleToggleFavorite(product.id)}
@@ -266,10 +289,23 @@ export default function ProfilePage() {
 																{product.name}
 															</h4>
 														</div>
-														<div className="flex flex-col items-end">
-															<span className="text-sm font-sans text-stone-400 mb-3">
-																${product.price ? product.price.toFixed(2) : '0.00'}
-															</span>
+														<div className="flex flex-col items-end gap-3">
+															<div className="flex flex-col items-end">
+																{product.salePrice ? (
+																	<>
+																		<span className="text-[10px] font-sans text-red-400 line-through leading-none">
+																			${product.price.toFixed(2)}
+																		</span>
+																		<span className="text-sm font-sans text-[#86967E] font-bold leading-none mt-1">
+																			${product.salePrice.toFixed(2)}
+																		</span>
+																	</>
+																) : (
+																	<span className="text-sm font-sans text-stone-300">
+																		${product.price?.toFixed(2) ?? '0.00'}
+																	</span>
+																)}
+															</div>
 															<Link
 																href={`/products/${product.id}`}
 																className="p-2 bg-[#86967E] text-white rounded-lg hover:bg-white hover:text-black transition-all"

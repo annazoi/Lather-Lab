@@ -23,6 +23,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
 	const isOutOfStock = product.quantity === 0;
 	const salePrice = product.discount ? product.price * (1 - product.discount / 100) : null;
 
+	// Split description and benefits for better UI
+	const parts = (product.description || '').split('Benefits:');
+	const mainDescription = parts[0]?.trim();
+	const benefitsString = parts[1]?.trim();
+	const benefitsList = benefitsString ? benefitsString.split(',').map((b) => b.trim()) : [];
+
 	return (
 		<main className="min-h-screen pt-40 pb-24 bg-[#23211F] text-[#F9F8F6]">
 			<div className="max-w-[1200px] mx-auto px-6 lg:px-12">
@@ -111,9 +117,30 @@ export default async function ProductPage({ params }: ProductPageProps) {
 							</div>
 
 							<p className="text-stone-400 text-lg font-serif italic leading-relaxed max-w-xl">
-								{/* {mainDescription} */}
+								{mainDescription}
 							</p>
 						</section>
+
+						{/* Benefits List */}
+						{benefitsList.length > 0 && (
+							<section className="space-y-6">
+								<h3 className="text-[10px] uppercase font-bold tracking-[0.3em] text-stone-500 border-b border-[#363330] pb-4">
+									Benefits of Use
+								</h3>
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+									{benefitsList.map((benefit, idx) => (
+										<div key={idx} className="flex items-center space-x-3 group text-stone-300">
+											<div className="w-5 h-5 rounded-full bg-[#86967E]/10 flex items-center justify-center border border-[#86967E]/20 group-hover:bg-[#86967E]/20 transition-all">
+												<Check size={10} className="text-[#86967E]" />
+											</div>
+											<span className="text-[13px] font-sans group-hover:text-white transition-colors">
+												{benefit}
+											</span>
+										</div>
+									))}
+								</div>
+							</section>
+						)}
 
 						{/* Action Buttons */}
 						<section className="space-y-6 pt-4">

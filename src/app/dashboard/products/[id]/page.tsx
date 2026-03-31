@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { ImageUpload } from '@/components/ImageUpload';
 import { productSchema } from '@/validators/admin.schema';
 import Image from 'next/image';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Check, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 
 export default function EditProductPage() {
@@ -19,7 +19,8 @@ export default function EditProductPage() {
     isActive: true,
     isBestSeller: false,
     quantity: 0,
-    discount: 0
+    discount: 0,
+    description: ''
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -40,7 +41,8 @@ export default function EditProductPage() {
           isActive: data.isActive,
           isBestSeller: data.isBestSeller,
           quantity: data.quantity || 0,
-          discount: data.discount || 0
+          discount: data.discount || 0,
+          description: data.description || ''
         });
       } catch (err) {
         alert('Could not load product details');
@@ -161,6 +163,18 @@ export default function EditProductPage() {
                   onChange={(e) => setFormData({...formData, discount: parseInt(e.target.value) || 0})}
                 />
               </div>
+
+              <div className="space-y-2 col-span-2">
+                <label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">Description & Benefits</label>
+                <textarea 
+                  value={formData.description}
+                  required
+                  placeholder="Artisanal blend of... Benefits: Calming, Silky, etc."
+                  rows={4}
+                  className="w-full bg-transparent border border-[#363330] p-4 text-[#F9F8F6] font-sans focus:border-[#86967E] outline-none transition-colors rounded-lg resize-none"
+                  onChange={(e) => setFormData({...formData, description: e.target.value})}
+                />
+              </div>
             </div>
 
             <div className="flex flex-col space-y-4 pt-4">
@@ -214,6 +228,98 @@ export default function EditProductPage() {
             </div>
           </div>
         </form>
+      </div>
+
+      {/* Live Preview Section */}
+      <div className="mt-24 space-y-12 animate-in fade-in duration-1000 delay-300">
+        <header className="border-b border-[#363330] pb-6">
+          <h2 className="text-2xl font-serif text-[#F9F8F6]">Customer Experience Preview</h2>
+          <p className="text-[10px] uppercase tracking-[0.2em] text-[#86967E] font-bold mt-2">Simulated Storefront Overview</p>
+        </header>
+
+        <div className="bg-[#1C1917] border border-[#363330] rounded-2xl overflow-hidden shadow-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2">
+            <div className="relative aspect-square lg:aspect-auto bg-[#2D2A28] overflow-hidden grayscale-[0.2]">
+              <Image 
+                src={formData.image || '/images/placeholder.png'} 
+                alt="Preview" 
+                fill 
+                className="object-cover"
+              />
+              {formData.isBestSeller && (
+                <div className="absolute top-6 left-6 bg-[#DCE8D5] text-[#1C1917] text-[9px] font-bold px-4 py-2 uppercase tracking-widest z-10 shadow-2xl">
+                  Best Seller
+                </div>
+              )}
+              {formData.discount > 0 && (
+                <div className="absolute top-6 right-6 bg-[#86967E] text-white text-[9px] font-bold px-4 py-2 uppercase tracking-widest z-10 shadow-2xl">
+                  {formData.discount}% Off
+                </div>
+              )}
+            </div>
+
+            <div className="p-8 md:p-16 space-y-10">
+              <section className="space-y-6">
+                <div>
+                  <span className="text-[10px] uppercase font-bold tracking-[0.3em] text-[#86967E] mb-4 block">
+                    {formData.category || 'Category Unselected'}
+                  </span>
+                  <h3 className="text-4xl font-serif text-[#F9F8F6] tracking-tight leading-tight">
+                    {formData.name || 'Unnamed Craft'}
+                  </h3>
+                </div>
+
+                <div className="flex items-baseline space-x-6">
+                  {formData.discount > 0 ? (
+                    <>
+                      <span className="text-2xl font-sans font-bold text-[#F9F8F6]">
+                        ${(formData.price * (1 - formData.discount / 100)).toFixed(2)}
+                      </span>
+                      <span className="text-lg font-sans text-stone-500 line-through opacity-50">
+                        ${formData.price.toFixed(2)}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-2xl font-sans font-bold text-[#F9F8F6]">
+                      ${formData.price.toFixed(2)}
+                    </span>
+                  )}
+                </div>
+
+                <p className="text-stone-400 text-[15px] font-serif italic leading-relaxed max-w-md">
+                  {formData.description.split('Benefits:')[0]?.trim() || 'No description provided yet.'}
+                </p>
+              </section>
+
+              {formData.description.includes('Benefits:') && (
+                <section className="space-y-6 border-t border-[#363330] pt-10">
+                  <h4 className="text-[9px] uppercase font-bold tracking-[0.3em] text-stone-500">
+                    Artisanal Benefits
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {formData.description.split('Benefits:')[1]?.split(',').map((benefit, idx) => (
+                      <div key={idx} className="flex items-center space-x-3 text-stone-300">
+                        <div className="w-4 h-4 rounded-full bg-[#86967E]/10 flex items-center justify-center border border-[#86967E]/20">
+                          <Check size={8} className="text-[#86967E]" />
+                        </div>
+                        <span className="text-[11px] font-sans">
+                          {benefit.trim()}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              <div className="flex gap-4 pt-4">
+                <div className="flex-1 flex items-center justify-center space-x-4 px-8 py-4 bg-[#86967E] text-[#F9F8F6] text-[10px] uppercase font-bold tracking-[0.25em] opacity-80 cursor-not-allowed">
+                  <ShoppingBag size={16} />
+                  <span>Add to Collection</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
