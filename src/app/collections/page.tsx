@@ -96,13 +96,15 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
 						const isOutOfStock = product.quantity === 0;
 
 						return (
-							<div
+							<Link
 								key={product.id}
+								href={`/products/${product.id}`}
 								className={`group flex flex-col ${isOutOfStock ? 'cursor-not-allowed grayscale-[0.5]' : 'cursor-pointer'}`}
 							>
-								<div className="relative aspect-square overflow-hidden bg-[#2D2A28] mb-6 flex flex-col justify-end product-card">
+								{/* Image and Stock Status */}
+								<div className="relative aspect-square overflow-hidden bg-[#2D2A28] mb-6 flex flex-col justify-end product-card rounded-xl border border-[#363330] hover:border-[#86967E]/50 transition-all">
 									{product.isBestSeller && !isOutOfStock && (
-										<div className="absolute top-6 left-6 bg-[#DCE8D5] text-[#1C1917] text-[10px] font-bold px-3 py-1 uppercase tracking-widest z-10">
+										<div className="absolute top-6 left-6 bg-[#DCE8D5] text-[#1C1917] text-[10px] font-bold px-3 py-1 uppercase tracking-widest z-10 shadow-lg">
 											Best Seller
 										</div>
 									)}
@@ -115,7 +117,7 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
 										</div>
 									)}
 
-									<div className="absolute inset-0 p-10 flex items-center justify-center">
+									<div className="absolute inset-0 p-10 flex items-center justify-center pointer-events-none">
 										<Image
 											src={getProductImageUrl(product.image)}
 											alt={product.name}
@@ -127,10 +129,10 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
 									</div>
 
 									{!isOutOfStock && (
-										<div className="relative z-20 px-6 pb-6 opacity-0 translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-											<button className="w-full bg-white text-[#1C1917] py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-[#86967E] hover:text-white transition-colors">
-												Add To Cart
-											</button>
+										<div className="relative z-20 px-6 pb-6 opacity-0 translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 hidden sm:block">
+											<div className="w-full bg-white text-[#1C1917] py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-[#86967E] hover:text-white transition-colors text-center">
+												View Collection
+											</div>
 										</div>
 									)}
 								</div>
@@ -138,7 +140,7 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
 								<div className="space-y-1 px-1">
 									<div className="flex justify-between items-start mb-1.5">
 										<h3
-											className={`font-serif text-[20px] ${product.isBestSeller && !isOutOfStock ? 'text-[#86967E]' : 'text-[#F9F8F6]'} tracking-wide`}
+											className={`font-serif text-[20px] ${product.isBestSeller && !isOutOfStock ? 'text-[#86967E]' : 'text-[#F9F8F6]'} tracking-wide group-hover:text-[#86967E] transition-colors`}
 										>
 											{product.name}
 										</h3>
@@ -160,20 +162,24 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
 										</div>
 									</div>
 									<div className="flex justify-between items-center">
-										<p className="text-[12px] font-sans text-[#8A8886]">{product.category}</p>
+										<p className="text-[12px] font-sans text-[#8A8886] uppercase tracking-widest">
+											{product.category}
+										</p>
 										<div className="flex items-center space-x-3">
 											{product.discount && !isOutOfStock && (
 												<span className="text-[9px] bg-red-900/20 text-red-400 px-2 py-0.5 rounded font-bold uppercase tracking-tighter">
 													-{product.discount}%
 												</span>
 											)}
-											<span className={`text-[10px] font-bold uppercase tracking-widest ${isOutOfStock ? 'text-red-500' : 'text-[#86967E]'}`}>
-												{product.quantity} in stock
+											<span
+												className={`text-[10px] font-bold uppercase tracking-widest ${isOutOfStock ? 'text-red-500' : 'text-[#86967E]'}`}
+											>
+												{isOutOfStock ? 'Sold Out' : `${product.quantity} in stock`}
 											</span>
 										</div>
 									</div>
 								</div>
-							</div>
+							</Link>
 						);
 					})}
 				</div>

@@ -3,13 +3,15 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/auth.store';
 import { useRouter } from 'next/navigation';
-import { ShoppingBag, User, Package, LogOut, ChevronRight } from 'lucide-react';
+import { ShoppingBag, User, Package, LogOut, ChevronRight, Heart, Trash2, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ProfilePage() {
 	const { user, isAuthenticated, logout } = useAuthStore();
 	const [orders, setOrders] = useState<any[]>([]);
+	const [favorites, setFavorites] = useState<any[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [favLoading, setFavLoading] = useState(true);
 	const router = useRouter();
 
 	useEffect(() => {
@@ -32,8 +34,42 @@ export default function ProfilePage() {
 			}
 		}
 
+		async function fetchFavorites() {
+			try {
+				const res = await fetch('/api/profile/favorites');
+				if (res.ok) {
+					const data = await res.json();
+					setFavorites(data);
+				}
+			} catch (err) {
+				console.error('Failed to fetch favorites');
+			} finally {
+				setFavLoading(false);
+			}
+		}
+
 		fetchOrders();
-	}, [isAuthenticated, router]);
+		if (user?.role === 'CLIENT') {
+			fetchFavorites();
+		} else {
+			setFavLoading(false);
+		}
+	}, [isAuthenticated, router, user?.role]);
+
+	const handleToggleFavorite = async (productId: string) => {
+		try {
+			const res = await fetch('/api/profile/favorites', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ productId }),
+			});
+			if (res.ok) {
+				setFavorites((prev) => prev.filter((p) => p.id !== productId));
+			}
+		} catch (err) {
+			console.error('Failed to toggle favorite');
+		}
+	};
 
 	const handleLogout = () => {
 		logout();
@@ -163,6 +199,92 @@ export default function ProfilePage() {
 								</div>
 							)}
 						</div>
+
+						{/* Favorites Section - Only for Customers */}
+						{user?.role === 'CLIENT' && (
+							<div className="bg-[#1C1917] border border-[#363330] p-10 rounded-xl overflow-hidden min-h-[400px] mt-10 animate-in fade-in duration-1000 delay-300">
+								<header className="flex items-center justify-between mb-10 border-b border-[#363330] pb-6">
+									<div className="flex items-center space-x-3">
+										<Heart size={18} className="text-[#86967E] fill-[#86967E]/20" />
+										<h3 className="text-xl font-serif text-[#F9F8F6]">Curated Selection</h3>
+									</div>
+									<span className="text-[10px] uppercase font-bold tracking-widest text-[#8A8886]">
+										{favorites.length} Saved Essentials
+									</span>
+								</header>
+
+								{favLoading ? (
+									<div className="flex items-center justify-center h-40">
+										<span className="text-[10px] uppercase font-bold tracking-widest text-stone-500 animate-pulse">
+											Opening collection...
+										</span>
+									</div>
+								) : favorites.length === 0 ? (
+									<div className="flex flex-col items-center justify-center h-60 text-center">
+										<Heart size={40} className="text-stone-700 mb-6 opacity-30" />
+										<p className="text-stone-400 font-serif mb-6">Your curated selection is currently empty.</p>
+										<Link
+											href="/collections"
+											className="border border-[#363330] text-stone-400 px-10 py-3.5 text-[11px] uppercase font-bold tracking-[0.2em] hover:border-[#86967E] hover:text-[#86967E] transition-all"
+										>
+											Discover Products
+										</Link>
+									</div>
+								) : (
+									<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+										{favorites.map((product) => (
+											<div
+												key={product.id}
+												className="group relative bg-white/[0.02] border border-[#363330] rounded-xl overflow-hidden hover:border-[#86967E]/50 transition-all duration-500"
+											>
+												<div className="aspect-[4/5] overflow-hidden">
+													<img
+														src={product.image}
+														alt={product.name}
+														className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+													/>
+													<div className="absolute inset-0 bg-gradient-to-t from-[#1C1917] via-transparent to-transparent opacity-60" />
+												</div>
+
+												<div className="absolute top-4 right-4 z-10">
+													<button
+														onClick={() => handleToggleFavorite(product.id)}
+														className="p-3 bg-[#1C1917]/80 backdrop-blur-md border border-[#363330] rounded-full text-stone-400 hover:text-red-400 hover:border-red-400/30 transition-all"
+														title="Remove from favorites"
+													>
+														<Trash2 size={14} />
+													</button>
+												</div>
+
+												<div className="absolute bottom-0 left-0 right-0 p-6">
+													<div className="flex items-end justify-between gap-4">
+														<div>
+															<span className="text-[9px] uppercase font-bold tracking-[0.2em] text-[#86967E] mb-2 block">
+																{product.category}
+															</span>
+															<h4 className="text-lg font-serif text-[#F9F8F6] leading-tight group-hover:text-[#86967E] transition-colors">
+																{product.name}
+															</h4>
+														</div>
+														<div className="flex flex-col items-end">
+															<span className="text-sm font-sans text-stone-400 mb-3">
+																${product.price ? product.price.toFixed(2) : '0.00'}
+															</span>
+															<Link
+																href={`/products/${product.id}`}
+																className="p-2 bg-[#86967E] text-white rounded-lg hover:bg-white hover:text-black transition-all"
+															>
+																<ExternalLink size={14} />
+															</Link>
+														</div>
+													</div>
+												</div>
+											</div>
+										))}
+									</div>
+								)}
+							</div>
+						)}
 					</div>
 				</div>
 			</div>
