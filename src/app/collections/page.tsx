@@ -93,7 +93,7 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
 
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
 					{products.map((product) => {
-						const isOutOfStock = (product as any).quantity === 0;
+						const isOutOfStock = product.quantity === 0;
 
 						return (
 							<div
@@ -168,7 +168,7 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
 												</span>
 											)}
 											<span className={`text-[10px] font-bold uppercase tracking-widest ${isOutOfStock ? 'text-red-500' : 'text-[#86967E]'}`}>
-												{(product as any).quantity || 0} in stock
+												{product.quantity} in stock
 											</span>
 										</div>
 									</div>

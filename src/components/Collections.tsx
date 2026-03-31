@@ -38,7 +38,7 @@ export const Collections = ({ products }: CollectionsProps) => {
 
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-16">
 					{products.map((product, idx) => {
-						const isOutOfStock = (product as any).quantity === 0;
+						const isOutOfStock = product.quantity === 0;
 
 						return (
 							<motion.div
@@ -115,7 +115,7 @@ export const Collections = ({ products }: CollectionsProps) => {
 												</span>
 											)}
 											<span className={`text-[10px] font-bold uppercase tracking-widest ${isOutOfStock ? 'text-red-500' : 'text-[#86967E]'}`}>
-												{(product as any).quantity || 0} in stock
+												{product.quantity} in stock
 											</span>
 										</div>
 									</div>
