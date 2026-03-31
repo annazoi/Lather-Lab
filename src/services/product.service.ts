@@ -42,6 +42,17 @@ export class ProductService {
       orderBy: { createdAt: 'desc' }
     });
   }
+  
+  async getDiscountedProducts(): Promise<Product[]> {
+    return productRepository.getProducts({
+      where: {
+        discount: {
+          gt: 0
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+  }
 
   async createProduct(data: Prisma.ProductCreateInput): Promise<Product> {
     return productRepository.createProduct(data);

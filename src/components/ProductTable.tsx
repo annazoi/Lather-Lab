@@ -8,9 +8,15 @@ import { useRouter } from 'next/navigation';
 
 interface ProductTableProps {
   products: any[];
+  emptyTitle?: string;
+  emptySubtitle?: string;
 }
 
-export function ProductTable({ products: initialProducts }: ProductTableProps) {
+export function ProductTable({ 
+  products: initialProducts, 
+  emptyTitle = "The catalogue is currently vacant.", 
+  emptySubtitle = "Add items to begin management" 
+}: ProductTableProps) {
   const [products, setProducts] = useState(initialProducts);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const router = useRouter();
@@ -94,9 +100,24 @@ export function ProductTable({ products: initialProducts }: ProductTableProps) {
                 </td>
                 <td className="px-6 md:px-10 py-7">
                   <div className="flex flex-col">
-                    <span className="text-[#F9F8F6] font-[800] tracking-wider font-sans text-sm md:text-base">${product.price.toFixed(2)}</span>
-                    {product.discount && (
-                      <span className="text-[9px] md:text-[10px] text-red-400 font-bold tracking-widest uppercase mt-1">-{product.discount}% OFF</span>
+                    {product.discount ? (
+                      <>
+                        <span className="text-[#86967E] font-[800] tracking-wider font-sans text-sm md:text-base">
+                          ${(product.price * (1 - product.discount / 100)).toFixed(2)}
+                        </span>
+                        <div className="flex items-center space-x-2 mt-1">
+                          <span className="text-[10px] text-stone-500 line-through opacity-60">
+                            ${product.price.toFixed(2)}
+                          </span>
+                          <span className="text-[8px] md:text-[9px] text-red-400 font-black tracking-widest uppercase bg-red-900/10 px-1.5 py-0.5 rounded">
+                            -{product.discount}%
+                          </span>
+                        </div>
+                      </>
+                    ) : (
+                      <span className="text-[#F9F8F6] font-[800] tracking-wider font-sans text-sm md:text-base">
+                        ${product.price.toFixed(2)}
+                      </span>
                     )}
                   </div>
                 </td>
@@ -180,7 +201,25 @@ export function ProductTable({ products: initialProducts }: ProductTableProps) {
               <div className="flex-1">
                 <div className="flex justify-between items-start">
                   <h3 className="font-serif text-[#F9F8F6] text-lg">{product.name}</h3>
-                  <span className="text-[#F9F8F6] font-bold tracking-wider font-sans">${product.price.toFixed(2)}</span>
+                <div className="flex flex-col items-end">
+                  {product.discount ? (
+                    <>
+                      <span className="text-[#86967E] font-bold tracking-wider font-sans">
+                        ${(product.price * (1 - product.discount / 100)).toFixed(2)}
+                      </span>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-[10px] text-stone-500 line-through opacity-60">
+                          ${product.price.toFixed(2)}
+                        </span>
+                        <span className="text-[8px] text-red-400 font-bold tracking-tighter bg-red-900/10 px-1 py-0.5 rounded">
+                          -{product.discount}%
+                        </span>
+                      </div>
+                    </>
+                  ) : (
+                    <span className="text-[#F9F8F6] font-bold tracking-wider font-sans">${product.price.toFixed(2)}</span>
+                  )}
+                </div>
                 </div>
                 <p className="text-[10px] text-stone-500 font-sans tracking-widest uppercase">{product.category}</p>
               </div>
@@ -248,8 +287,8 @@ export function ProductTable({ products: initialProducts }: ProductTableProps) {
 
       {products.length === 0 && (
         <div className="p-20 text-center text-stone-500">
-          <p className="font-serif text-xl italic mb-2">The catalogue is currently vacant.</p>
-          <p className="text-[10px] uppercase tracking-widest">Add items to begin management</p>
+          <p className="font-serif text-xl italic mb-2">{emptyTitle}</p>
+          <p className="text-[10px] uppercase tracking-widest">{emptySubtitle}</p>
         </div>
       )}
     </div>

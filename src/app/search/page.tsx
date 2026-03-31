@@ -141,13 +141,33 @@ export default function SearchPage() {
 										<h3 className="font-serif text-[22px] text-stone-900 tracking-wide group-hover:text-[#86967E] transition-colors">
 											{product.name}
 										</h3>
-										<span className="font-sans text-[15px] text-stone-900 font-extrabold tracking-wider">
-											${product.price.toFixed(2)}
-										</span>
+										<div className="flex flex-col items-end">
+											{product.discount ? (
+												<>
+													<span className="font-sans text-[15px] text-[#86967E] font-extrabold tracking-wider">
+														${(product.price * (1 - product.discount / 100)).toFixed(2)}
+													</span>
+													<span className="font-sans text-[11px] text-stone-400 line-through opacity-80">
+														${product.price.toFixed(2)}
+													</span>
+												</>
+											) : (
+												<span className="font-sans text-[15px] text-stone-900 font-extrabold tracking-wider">
+													${product.price.toFixed(2)}
+												</span>
+											)}
+										</div>
 									</div>
-									<p className="text-[12px] font-sans text-stone-400 uppercase tracking-[0.2em] font-medium">
-										{product.category}
-									</p>
+									<div className="flex justify-between items-center">
+										<p className="text-[12px] font-sans text-stone-400 uppercase tracking-[0.2em] font-medium">
+											{product.category}
+										</p>
+										{product.discount && (
+											<span className="text-[9px] bg-red-50 text-red-500 px-2 py-0.5 rounded font-bold uppercase tracking-tighter">
+												-{product.discount}%
+											</span>
+										)}
+									</div>
 								</div>
 							</motion.div>
 						))}

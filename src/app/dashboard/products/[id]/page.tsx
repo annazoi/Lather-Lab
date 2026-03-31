@@ -18,7 +18,8 @@ export default function EditProductPage() {
     image: '',
     isActive: true,
     isBestSeller: false,
-    quantity: 0
+    quantity: 0,
+    discount: 0
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -38,7 +39,8 @@ export default function EditProductPage() {
           image: data.image,
           isActive: data.isActive,
           isBestSeller: data.isBestSeller,
-          quantity: data.quantity || 0
+          quantity: data.quantity || 0,
+          discount: data.discount || 0
         });
       } catch (err) {
         alert('Could not load product details');
@@ -56,12 +58,17 @@ export default function EditProductPage() {
     setSaving(true);
 
     try {
-      await productSchema.validate(formData);
+      // Convert discount to number or null correctly
+      const dataToValidate = {
+        ...formData,
+        discount: formData.discount === 0 ? null : formData.discount
+      };
+      await productSchema.validate(dataToValidate);
       
       const response = await fetch(`/api/admin/products/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(dataToValidate),
       });
 
       if (!response.ok) {
@@ -142,6 +149,17 @@ export default function EditProductPage() {
                   <option value="Deep Cleanse & Detox">Detox</option>
                   <option value="Soothing & Nourishing">Nourishing</option>
                 </select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">Discount (%)</label>
+                <input 
+                  type="number" 
+                  min="0"
+                  max="100"
+                  value={formData.discount}
+                  className="w-full bg-transparent border-b border-[#363330] py-3 text-[#F9F8F6] font-sans focus:border-[#86967E] outline-none transition-colors"
+                  onChange={(e) => setFormData({...formData, discount: parseInt(e.target.value) || 0})}
+                />
               </div>
             </div>
 

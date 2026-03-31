@@ -142,15 +142,35 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
 										>
 											{product.name}
 										</h3>
-										<span className="font-sans text-[15px] text-[#F9F8F6] font-[800] tracking-wider">
-											${product.price.toFixed(2)}
-										</span>
+										<div className="flex flex-col items-end">
+											{product.discount ? (
+												<>
+													<span className="font-sans text-[15px] text-[#86967E] font-[800] tracking-wider">
+														${(product.price * (1 - product.discount / 100)).toFixed(2)}
+													</span>
+													<span className="font-sans text-[11px] text-[#8A8886] line-through opacity-60">
+														${product.price.toFixed(2)}
+													</span>
+												</>
+											) : (
+												<span className="font-sans text-[15px] text-[#F9F8F6] font-[800] tracking-wider">
+													${product.price.toFixed(2)}
+												</span>
+											)}
+										</div>
 									</div>
 									<div className="flex justify-between items-center">
 										<p className="text-[12px] font-sans text-[#8A8886]">{product.category}</p>
-										<span className={`text-[10px] font-bold uppercase tracking-widest ${isOutOfStock ? 'text-red-500' : 'text-[#86967E]'}`}>
-											{(product as any).quantity || 0} in stock
-										</span>
+										<div className="flex items-center space-x-3">
+											{product.discount && !isOutOfStock && (
+												<span className="text-[9px] bg-red-900/20 text-red-400 px-2 py-0.5 rounded font-bold uppercase tracking-tighter">
+													-{product.discount}%
+												</span>
+											)}
+											<span className={`text-[10px] font-bold uppercase tracking-widest ${isOutOfStock ? 'text-red-500' : 'text-[#86967E]'}`}>
+												{(product as any).quantity || 0} in stock
+											</span>
+										</div>
 									</div>
 								</div>
 							</div>
