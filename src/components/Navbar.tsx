@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, User, ShoppingBag, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/auth.store';
+import { useCartStore } from '@/store/cart.store';
 
 import { usePathname } from 'next/navigation';
 
@@ -12,10 +13,13 @@ export const Navbar = () => {
 
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
+	const [isMounted, setIsMounted] = useState(false);
 
 	const { isAuthenticated, user } = useAuthStore();
+	const { getTotalItems, onOpen } = useCartStore();
 
 	useEffect(() => {
+		setIsMounted(true);
 		const handleScroll = () => {
 			setIsScrolled(window.scrollY > 20);
 		};
@@ -79,11 +83,16 @@ export const Navbar = () => {
 					>
 						<User size={18} />
 					</Link>
-					<button className="text-stone-600 hover:text-stone-900 transition-colors relative">
+					<button 
+						onClick={onOpen}
+						className="text-stone-600 hover:text-stone-900 transition-colors relative"
+					>
 						<ShoppingBag size={18} />
-						<span className="absolute -top-2 -right-2 bg-[#A8C0A0] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
-							0
-						</span>
+						{isMounted && (
+							<span className="absolute -top-2 -right-2 bg-[#A8C0A0] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+								{getTotalItems()}
+							</span>
+						)}
 					</button>
 				</div>
 			</div>

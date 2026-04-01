@@ -26,39 +26,55 @@ export default async function AdminOrdersPage() {
         </p>
       </header>
 
-      <div className="bg-[#1C1917] border border-[#363330] rounded-xl overflow-hidden">
+      <div className="bg-[#1C1917] border border-[#363330] rounded-xl overflow-hidden shadow-2xl">
         <table className="w-full text-left">
           <thead>
             <tr className="border-b border-[#363330] bg-[#23211F]/50">
-              <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-[#86967E] font-bold">Order ID</th>
-              <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-[#86967E] font-bold">User</th>
-              <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-[#86967E] font-bold">Date</th>
-              <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-[#86967E] font-bold">Total</th>
-              <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-[#86967E] font-bold">Status</th>
-              <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-[#86967E] font-bold text-right">Actions</th>
+              <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-[#86967E] font-bold">Order Ritual ID</th>
+              <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-[#86967E] font-bold">Customer & Shipping</th>
+              <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-[#86967E] font-bold text-center">Contact</th>
+              <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-[#86967E] font-bold">Sum</th>
+              <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-[#86967E] font-bold text-center">Status</th>
+              <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-[#86967E] font-bold text-right pr-12">Ritual Record</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#363330]">
             {orders.map((order) => (
-              <tr key={order.id} className="hover:bg-white/[0.02] transition-colors">
-                <td className="px-8 py-6 text-[12px] font-sans text-stone-300 font-bold uppercase tracking-wider">
-                  #{order.id.slice(-6)}
-                </td>
-                <td className="px-8 py-6 text-[12px] font-sans text-stone-400">{order.userId}</td>
-                <td className="px-8 py-6 text-[12px] font-sans text-stone-400">
-                  {new Date(order.createdAt).toLocaleDateString()}
-                </td>
-                <td className="px-8 py-6 text-[#F9F8F6] font-[800] tracking-wider font-sans">
-                  ${order.total.toFixed(2)}
+              <tr key={order.id} className="hover:bg-white/[0.02] transition-colors group">
+                <td className="px-8 py-6">
+                  <div className="flex flex-col space-y-1">
+                    <span className="text-[12px] font-sans text-stone-300 font-[800] uppercase tracking-widest">
+                      #{order.id.slice(-6)}
+                    </span>
+                    <span className="text-[10px] text-stone-600 font-sans uppercase font-bold tracking-widest">
+                      {new Date(order.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
                 </td>
                 <td className="px-8 py-6">
-                  <span className={`px-4 py-1.5 text-[9px] uppercase font-bold tracking-widest rounded-full ${getStatusColor(order.status)}`}>
+                  <div className="flex flex-col space-y-1">
+                    <span className="text-[13px] font-sans font-bold text-[#F9F8F6]">{order.shippingName || 'No Name'}</span>
+                    <span className="text-[11px] text-stone-500 font-sans italic leading-relaxed">
+                      {order.shippingAddress}, {order.shippingCity}
+                    </span>
+                  </div>
+                </td>
+                <td className="px-8 py-6 text-center">
+                  <span className="text-[11px] font-sans text-stone-500 tracking-widest uppercase font-bold">
+                    {order.shippingPhone || '—'}
+                  </span>
+                </td>
+                <td className="px-8 py-6 text-[#86967E] font-[900] tracking-wider font-sans text-[14px]">
+                  ${order.total.toFixed(2)}
+                </td>
+                <td className="px-8 py-6 text-center">
+                  <span className={`px-4 py-1.5 text-[9px] uppercase font-[900] tracking-widest rounded-full leading-none inline-block border ${getStatusColor(order.status).replace('text-', 'border-').replace('text-', 'text-')}`}>
                     {order.status}
                   </span>
                 </td>
-                <td className="px-8 py-6 text-right">
-                  <button className="p-2 text-stone-400 hover:text-white transition-all inline-flex items-center space-x-2 text-[10px] uppercase font-bold tracking-widest group">
-                    <span>Manage</span>
+                <td className="px-8 py-6 text-right pr-12">
+                  <button className="text-stone-500 hover:text-[#86967E] transition-all inline-flex items-center space-x-2 text-[10px] uppercase font-bold tracking-[0.25em] relative">
+                    <span>Details</span>
                     <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
                   </button>
                 </td>

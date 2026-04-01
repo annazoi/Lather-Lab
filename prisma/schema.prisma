@@ -19,6 +19,7 @@ model Product {
   description  String     @default("")
   quantity       Int        @default(0)
   favorites      Favorite[]
+  orderItems     OrderItem[]
   createdAt      DateTime   @default(now())
 }
 
@@ -28,6 +29,7 @@ model User {
   password  String
   role      Role       @default(CLIENT)
   favorites Favorite[]
+  orders    Order[]
   createdAt DateTime   @default(now())
 }
 
@@ -43,11 +45,27 @@ model Favorite {
 }
 
 model Order {
-  id        String      @id @default(cuid())
-  userId    String
-  status    OrderStatus @default(PENDING)
-  total     Float
-  createdAt DateTime    @default(now())
+  id              String      @id @default(cuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id])
+  status          OrderStatus @default(PENDING)
+  total           Float
+  shippingName    String      @default("")
+  shippingAddress String      @default("")
+  shippingCity    String      @default("")
+  shippingPhone   String      @default("")
+  items           OrderItem[]
+  createdAt       DateTime    @default(now())
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Float
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 }
 
 enum Role {

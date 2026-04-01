@@ -2,8 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { Heart } from 'lucide-react';
 
+import { useAuthStore } from '@/store/auth.store';
+
 // Client component for toggling favorite status of a product
 export default function FavoriteButton({ productId }: { productId: string }) {
+	const { user } = useAuthStore();
 	const [isFavorite, setIsFavorite] = useState(false);
 	const [loading, setLoading] = useState(true);
 
@@ -41,7 +44,7 @@ export default function FavoriteButton({ productId }: { productId: string }) {
 		}
 	};
 
-	if (loading) return null;
+	if (loading || user?.role !== 'CLIENT') return null;
 
 	return (
 		<button

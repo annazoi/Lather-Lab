@@ -5,6 +5,7 @@ import { getProductImageUrl } from '@/utils/product-image.utils';
 import Link from 'next/link';
 import { ArrowLeft, Check, ShoppingBag, Shield, RefreshCw, Truck } from 'lucide-react';
 import FavoriteButton from '@/components/FavoriteButton';
+import ProductActionButtons from '@/components/ProductActionButtons';
 import { notFound } from 'next/navigation';
 
 interface ProductPageProps {
@@ -144,21 +145,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
 						{/* Action Buttons */}
 						<section className="space-y-6 pt-4">
-							<div className="flex flex-col sm:flex-row gap-4">
-								<button
-									disabled={isOutOfStock}
-									className={`flex-1 flex items-center justify-center space-x-4 px-10 py-5 text-[11px] uppercase font-bold tracking-[0.25em] transition-all duration-500
-                    ${
-								isOutOfStock
-									? 'bg-stone-800 text-stone-500 cursor-not-allowed opacity-50'
-									: 'bg-[#86967E] text-[#F9F8F6] hover:bg-[#F9F8F6] hover:text-[#1C1917]'
-							}`}
-								>
-									<ShoppingBag size={18} />
-									<span>{isOutOfStock ? 'Currently Unavailable' : 'Add to Collection'}</span>
-								</button>
-								<FavoriteButton productId={product.id} />
-							</div>
+							<ProductActionButtons product={product} />
 
 							{isOutOfStock ? (
 								<p className="text-red-400/80 text-[11px] font-bold uppercase tracking-widest text-center sm:text-left">
