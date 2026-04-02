@@ -75,6 +75,8 @@ enum Role {
 
 enum OrderStatus {
   PENDING
+  CONFIRMED
+  PREPARATION
   SHIPPED
   DELIVERED
   CANCELLED

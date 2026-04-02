@@ -4,18 +4,10 @@ import { ShoppingBag, ChevronRight } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
+import OrderStatusSelector from './components/OrderStatusSelector';
+
 export default async function AdminOrdersPage() {
   const orders = await orderService.getAllOrders();
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'PENDING': return 'bg-yellow-900/20 text-yellow-400';
-      case 'SHIPPED': return 'bg-blue-900/20 text-blue-400';
-      case 'DELIVERED': return 'bg-green-900/20 text-green-400';
-      case 'CANCELLED': return 'bg-red-900/20 text-red-500';
-      default: return 'bg-stone-900/20 text-stone-400';
-    }
-  };
 
   return (
     <div className="space-y-10">
@@ -26,7 +18,7 @@ export default async function AdminOrdersPage() {
         </p>
       </header>
 
-      <div className="bg-[#1C1917] border border-[#363330] rounded-xl overflow-hidden shadow-2xl">
+      <div className="bg-[#1C1917] border border-[#363330] rounded-xl shadow-2xl relative">
         <table className="w-full text-left">
           <thead>
             <tr className="border-b border-[#363330] bg-[#23211F]/50">
@@ -68,9 +60,7 @@ export default async function AdminOrdersPage() {
                   ${order.total.toFixed(2)}
                 </td>
                 <td className="px-8 py-6 text-center">
-                  <span className={`px-4 py-1.5 text-[9px] uppercase font-[900] tracking-widest rounded-full leading-none inline-block border ${getStatusColor(order.status).replace('text-', 'border-').replace('text-', 'text-')}`}>
-                    {order.status}
-                  </span>
+                  <OrderStatusSelector orderId={order.id} currentStatus={order.status} />
                 </td>
                 <td className="px-8 py-6 text-right pr-12">
                   <button className="text-stone-500 hover:text-[#86967E] transition-all inline-flex items-center space-x-2 text-[10px] uppercase font-bold tracking-[0.25em] relative">
