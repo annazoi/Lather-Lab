@@ -40,7 +40,7 @@ export default function ProductActionButtons({ product }: Props) {
       >
         <div className={`flex items-center space-x-4 transition-transform duration-500 ${isAdding ? '-translate-y-12' : 'translate-y-0'}`}>
           <ShoppingBag size={18} />
-          <span>{isOutOfStock ? 'Currently Unavailable' : 'Add to Collection'}</span>
+          <span>{isOutOfStock ? 'Sold Out' : 'Add to Collection'}</span>
         </div>
         
         <div className={`absolute inset-0 flex items-center justify-center space-x-4 transition-transform duration-500 ${isAdding ? 'translate-y-0' : 'translate-y-12'}`}>

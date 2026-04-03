@@ -55,14 +55,15 @@ export default function CheckoutPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Checkout failed');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Checkout failed');
       }
 
       setIsSuccess(true);
       clearCart();
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert('Checkout failed. Please ensure you are logged in.');
+      alert(error.message || 'Checkout failed. Please ensure you are logged in.');
     } finally {
       setIsSubmitting(false);
     }

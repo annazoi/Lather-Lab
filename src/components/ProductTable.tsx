@@ -150,7 +150,7 @@ export function ProductTable({
                     </button>
                   </div>
                   {product.quantity === 0 && (
-                    <span className="block mt-2 text-[8px] text-center uppercase tracking-[0.2em] text-red-500/70 font-bold">Out of stock</span>
+                    <span className="block mt-2 text-[8px] text-center uppercase tracking-[0.2em] text-red-500/70 font-bold">Sold Out</span>
                   )}
                 </td>
                 <td className="px-6 md:px-10 py-7">

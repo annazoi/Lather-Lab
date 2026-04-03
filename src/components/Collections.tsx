@@ -59,7 +59,7 @@ export const Collections = ({ products }: CollectionsProps) => {
 									{isOutOfStock && (
 										<div className="absolute inset-0 bg-black/40 z-30 flex items-center justify-center">
 											<span className="text-white text-[12px] font-bold uppercase tracking-[0.3em] border border-white/30 px-6 py-3 bg-[#1C1917]/80 backdrop-blur-sm">
-												Out of Stock
+												Sold Out
 											</span>
 										</div>
 									)}
