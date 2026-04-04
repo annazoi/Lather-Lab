@@ -30,7 +30,7 @@ export default function NewProductPage() {
 			// Convert discount to number or null correctly
 			const dataToValidate = {
 				...formData,
-				discount: formData.discount === 0 ? null : formData.discount
+				discount: formData.discount === 0 ? null : formData.discount,
 			};
 			await productSchema.validate(dataToValidate);
 
@@ -66,29 +66,16 @@ export default function NewProductPage() {
 			<div className="bg-[#1C1917] border border-[#363330] rounded-xl p-6 md:p-12">
 				<form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
 					<div className="space-y-8">
-						<div className="space-y-2">
-							<label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">
-								Product Name
-							</label>
-							<input
-								type="text"
-								required
-								className="w-full bg-transparent border-b border-[#363330] py-3 text-[#F9F8F6] font-sans focus:border-[#86967E] outline-none transition-colors"
-								onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-							/>
-						</div>
-
-						<div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+						<div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
 							<div className="space-y-2">
 								<label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">
-									Price ($)
+									Product Name
 								</label>
 								<input
-									type="number"
-									step="0.01"
+									type="text"
 									required
 									className="w-full bg-transparent border-b border-[#363330] py-3 text-[#F9F8F6] font-sans focus:border-[#86967E] outline-none transition-colors"
-									onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+									onChange={(e) => setFormData({ ...formData, name: e.target.value })}
 								/>
 							</div>
 
@@ -106,6 +93,34 @@ export default function NewProductPage() {
 									<option value="Soothing & Nourishing">Nourishing</option>
 								</select>
 							</div>
+						</div>
+
+						<div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+							<div className="space-y-2">
+								<label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">
+									Price ($)
+								</label>
+								<input
+									type="number"
+									step="0.01"
+									required
+									className="w-full bg-transparent border-b border-[#363330] py-3 text-[#F9F8F6] font-sans focus:border-[#86967E] outline-none transition-colors"
+									onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+								/>
+							</div>
+
+							<div className="space-y-2">
+								<label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">
+									Stock Quantity
+								</label>
+								<input
+									type="number"
+									required
+									min="0"
+									className="w-full bg-transparent border-b border-[#363330] py-3 text-[#F9F8F6] font-sans focus:border-[#86967E] outline-none transition-colors"
+									onChange={(e) => setFormData({ ...formData, quantity: parseInt(e.target.value) })}
+								/>
+							</div>
 
 							<div className="space-y-2">
 								<label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">
@@ -119,31 +134,18 @@ export default function NewProductPage() {
 									onChange={(e) => setFormData({ ...formData, discount: parseInt(e.target.value) || 0 })}
 								/>
 							</div>
-
-							<div className="space-y-2 col-span-2">
-								<label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">
-									Description & Benefits
-								</label>
-								<textarea
-									required
-									placeholder="Artisanal blend of... Benefits: Calming, Silky, etc."
-									rows={4}
-									className="w-full bg-transparent border border-[#363330] p-4 text-[#F9F8F6] font-sans focus:border-[#86967E] outline-none transition-colors rounded-lg resize-none"
-									onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-								/>
-							</div>
 						</div>
 
-						<div className="space-y-2 max-w-[19rem] md:max-w-[7.5rem]">
+						<div className="space-y-2 col-span-2">
 							<label className="text-[10px] uppercase font-bold tracking-widest text-[#86967E]">
-								Stock Quantity
+								Description & Benefits
 							</label>
-							<input
-								type="number"
+							<textarea
 								required
-								min="0"
-								className="w-full bg-transparent border-b border-[#363330] py-3 text-[#F9F8F6] font-sans focus:border-[#86967E] outline-none transition-colors"
-								onChange={(e) => setFormData({ ...formData, quantity: parseInt(e.target.value) })}
+								placeholder="Artisanal blend of... Benefits: Calming, Silky, etc."
+								rows={4}
+								className="w-full bg-transparent border border-[#363330] p-4 text-[#F9F8F6] font-sans focus:border-[#86967E] outline-none transition-colors rounded-lg resize-none"
+								onChange={(e) => setFormData({ ...formData, description: e.target.value })}
 							/>
 						</div>
 
@@ -190,16 +192,18 @@ export default function NewProductPage() {
 			<div className="mt-24 space-y-12 animate-in fade-in duration-1000 delay-300 pb-24">
 				<header className="border-b border-[#363330] pb-6">
 					<h2 className="text-2xl font-serif text-[#F9F8F6]">Catalogue Entry Preview</h2>
-					<p className="text-[10px] uppercase tracking-[0.2em] text-[#86967E] font-bold mt-2">Storefront Simulation</p>
+					<p className="text-[10px] uppercase tracking-[0.2em] text-[#86967E] font-bold mt-2">
+						Storefront Simulation
+					</p>
 				</header>
 
 				<div className="bg-[#1C1917] border border-[#363330] rounded-2xl overflow-hidden shadow-2xl">
 					<div className="grid grid-cols-1 lg:grid-cols-2">
 						<div className="relative aspect-square lg:aspect-auto bg-[#2D2A28] overflow-hidden grayscale-[0.2]">
-							<Image 
-								src={formData.image || '/images/placeholder.png'} 
-								alt="Preview" 
-								fill 
+							<Image
+								src={formData.image || '/images/placeholder.png'}
+								alt="Preview"
+								fill
 								className="object-cover"
 							/>
 							{formData.isBestSeller && (
@@ -253,16 +257,17 @@ export default function NewProductPage() {
 										Artisanal Benefits
 									</h4>
 									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-										{formData.description.split('Benefits:')[1]?.split(',').map((benefit, idx) => (
-											<div key={idx} className="flex items-center space-x-3 text-stone-300">
-												<div className="w-4 h-4 rounded-full bg-[#86967E]/10 flex items-center justify-center border border-[#86967E]/20">
-													<Check size={8} className="text-[#86967E]" />
+										{formData.description
+											.split('Benefits:')[1]
+											?.split(',')
+											.map((benefit, idx) => (
+												<div key={idx} className="flex items-center space-x-3 text-stone-300">
+													<div className="w-4 h-4 rounded-full bg-[#86967E]/10 flex items-center justify-center border border-[#86967E]/20">
+														<Check size={8} className="text-[#86967E]" />
+													</div>
+													<span className="text-[11px] font-sans">{benefit.trim()}</span>
 												</div>
-												<span className="text-[11px] font-sans">
-													{benefit.trim()}
-												</span>
-											</div>
-										))}
+											))}
 									</div>
 								</section>
 							)}

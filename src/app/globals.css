@@ -3,25 +3,34 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 28, 25, 23;
-  --background-rgb: 249, 248, 246;
+	--foreground-rgb: 28, 25, 23;
+	--background-rgb: 249, 248, 246;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
+	color: rgb(var(--foreground-rgb));
+	background: rgb(var(--background-rgb));
 }
 
 @layer base {
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-serif tracking-tight;
-  }
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		@apply font-serif tracking-tight;
+	}
 }
 
 .premium-gradient {
-  background: linear-gradient(135deg, #F9F8F6 0%, #E7E5E4 100%);
+	background: linear-gradient(135deg, #f9f8f6 0%, #e7e5e4 100%);
 }
 
 .text-glow {
-  text-shadow: 0 0 20px rgba(107, 112, 92, 0.2);
+	text-shadow: 0 0 20px rgba(107, 112, 92, 0.2);
+}
+
+select option {
+	background-color: #86967e;
 }

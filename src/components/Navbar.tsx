@@ -83,10 +83,7 @@ export const Navbar = () => {
 					>
 						<User size={18} />
 					</Link>
-					<button 
-						onClick={onOpen}
-						className="text-stone-600 hover:text-stone-900 transition-colors relative"
-					>
+					<button onClick={onOpen} className="text-stone-600 hover:text-stone-900 transition-colors relative">
 						<ShoppingBag size={18} />
 						{isMounted && (
 							<span className="absolute -top-2 -right-2 bg-[#A8C0A0] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">

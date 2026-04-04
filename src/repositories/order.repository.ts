@@ -2,9 +2,16 @@ import { prisma } from '@/lib/prisma';
 import { Order, Prisma, OrderStatus } from '@prisma/client';
 
 export class OrderRepository {
-  async getAllOrders(options?: Prisma.OrderFindManyArgs): Promise<Order[]> {
+  async getAllOrders(options?: Prisma.OrderFindManyArgs) {
     return prisma.order.findMany({
       ...options,
+      include: {
+        items: {
+          include: {
+            product: true
+          }
+        }
+      },
       orderBy: options?.orderBy || { createdAt: 'desc' }
     });
   }
@@ -14,9 +21,51 @@ export class OrderRepository {
   }
 
   async updateStatus(id: string, status: OrderStatus): Promise<Order> {
-    return prisma.order.update({
-      where: { id },
-      data: { status }
+    return prisma.$transaction(async (tx) => {
+      const order = await tx.order.findUnique({
+        where: { id },
+        include: { items: { include: { product: true } } }
+      });
+
+      if (!order) {
+        throw new Error('Order not found');
+      }
+
+      // 1. If switching TO cancelled from another state -> Restore inventory
+      if (status === OrderStatus.CANCELLED && order.status !== OrderStatus.CANCELLED) {
+        for (const item of order.items) {
+          await tx.product.update({
+            where: { id: item.productId },
+            data: {
+              quantity: {
+                increment: item.quantity
+              }
+            }
+          });
+        }
+      }
+
+      // 2. If switching FROM cancelled back to an active state -> Decrease inventory
+      if (order.status === OrderStatus.CANCELLED && status !== OrderStatus.CANCELLED) {
+        for (const item of order.items) {
+          if (item.product.quantity < item.quantity) {
+             throw new Error(`Cannot re-activate order: ${item.product.name} is out of stock.`);
+          }
+          await tx.product.update({
+            where: { id: item.productId },
+            data: {
+              quantity: {
+                decrement: item.quantity
+              }
+            }
+          });
+        }
+      }
+
+      return tx.order.update({
+        where: { id },
+        data: { status }
+      });
     });
   }
 

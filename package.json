@@ -12,6 +12,8 @@
 	"dependencies": {
 		"@prisma/adapter-pg": "^7.6.0",
 		"@prisma/client": "^7.6.0",
+		"@stripe/react-stripe-js": "^6.1.0",
+		"@stripe/stripe-js": "^9.0.1",
 		"bcryptjs": "^3.0.3",
 		"cloudinary": "^2.9.0",
 		"clsx": "^2.1.0",
@@ -22,6 +24,7 @@
 		"pg": "^8.20.0",
 		"react": "^18",
 		"react-dom": "^18",
+		"stripe": "^22.0.0",
 		"tailwind-merge": "^2.2.1",
 		"yup": "^1.7.1",
 		"zustand": "^5.0.12"

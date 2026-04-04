@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Instagram, Facebook, Ticket } from 'lucide-react';
+import { Instagram, Facebook } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 export const Footer = () => {
@@ -30,8 +30,6 @@ export const Footer = () => {
 								size={16}
 								className="text-[#A5A29F] hover:text-white cursor-pointer transition-colors"
 							/>
-							<Ticket size={16} className="text-[#A5A29F] hover:text-white cursor-pointer transition-colors" />{' '}
-							{/* Placeholder for Pinterest */}
 							<Facebook size={16} className="text-[#A5A29F] hover:text-white cursor-pointer transition-colors" />
 						</div>
 					</div>

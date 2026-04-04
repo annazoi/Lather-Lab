@@ -2,7 +2,7 @@ import { orderRepository } from '@/repositories/order.repository';
 import { Order, OrderStatus } from '@prisma/client';
 
 export class OrderService {
-  async getAllOrders(): Promise<Order[]> {
+  async getAllOrders() {
     try {
       return await orderRepository.getAllOrders();
     } catch (error) {
