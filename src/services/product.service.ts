@@ -18,11 +18,27 @@ export class ProductService {
         };
       }
 
-      if (sort === 'price_asc') queryOptions.orderBy = { price: 'asc' };
-      else if (sort === 'price_desc') queryOptions.orderBy = { price: 'desc' };
-      else if (sort === 'name_asc') queryOptions.orderBy = { name: 'asc' };
+      // Special sorting handling for price (must include discount calculation)
+      if (sort === 'name_asc') queryOptions.orderBy = { name: 'asc' };
+      else if (sort === 'name_desc') queryOptions.orderBy = { name: 'desc' };
+      else if (sort === 'latest') queryOptions.orderBy = { createdAt: 'desc' };
+      else if (sort === 'oldest') queryOptions.orderBy = { createdAt: 'asc' };
+      else if (sort !== 'price_asc' && sort !== 'price_desc') {
+        queryOptions.orderBy = { createdAt: 'desc' }; // Default sort order
+      }
+      
+      let products = await productRepository.getProducts(queryOptions);
 
-      return await productRepository.getProducts(queryOptions);
+      // In-memory sorting for effective price
+      if (sort === 'price_asc' || sort === 'price_desc') {
+        products.sort((a, b) => {
+          const aPrice = a.discount ? a.price * (1 - a.discount / 100) : a.price;
+          const bPrice = b.discount ? b.price * (1 - b.discount / 100) : b.price;
+          return sort === 'price_asc' ? aPrice - bPrice : bPrice - aPrice;
+        });
+      }
+
+      return products;
     } catch (error) {
       console.error('[PRODUCT_SERVICE_ERROR]: Fetch products failed', error);
       throw new Error('Could not fetch products');

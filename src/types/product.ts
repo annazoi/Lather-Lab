@@ -1,4 +1,6 @@
-export type ProductSort = 'price_asc' | 'price_desc' | 'name_asc';
+import { ProductSortType } from '@/config/product-sort.config';
+
+export type ProductSort = ProductSortType;
 
 export interface ProductFilters {
   category?: string;
