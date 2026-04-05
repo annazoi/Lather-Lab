@@ -27,12 +27,7 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
 		console.error('Collections page error:', error);
 	}
 
-	const categories = [
-		'Purifying & Balancing',
-		'Deep Cleanse & Detox',
-		'Soothing & Nourishing',
-		'Sensitive Skin Care'
-	];
+	const categories = ['Purifying & Balancing', 'Deep Cleanse & Detox', 'Soothing & Nourishing', 'Sensitive Skin Care'];
 
 	return (
 		<main className="min-h-screen pt-32 pb-24 bg-[#23211F] text-stone-50 selection:bg-[#86967E]/30">
@@ -56,7 +51,7 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
 				</header>
 
 				{/* Functional Filters / Sort Bar */}
-				<CollectionFilters 
+				<CollectionFilters
 					currentSort={currentSort}
 					currentCategory={currentCategory}
 					productsCount={products.length}

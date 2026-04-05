@@ -10,6 +10,14 @@ export class ProductRepository {
     return prisma.product.findUnique({ where: { id } });
   }
 
+  async getProductsByIds(ids: string[]): Promise<Product[]> {
+    return prisma.product.findMany({
+      where: {
+        id: { in: ids }
+      }
+    });
+  }
+
   async createProduct(data: Prisma.ProductCreateInput): Promise<Product> {
     return prisma.product.create({ data });
   }

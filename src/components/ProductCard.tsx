@@ -49,7 +49,7 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
 							width={500}
 							height={500}
 							priority={index < 3}
-							className={`w-full h-full object-cover mix-blend-overlay opacity-80 ${!isOutOfStock && 'group-hover:scale-105'} transition-all duration-700`}
+							className={`w-full h-full object-cover mix-blend-overlay group-hover:mix-blend-normal opacity-80 ${!isOutOfStock && 'group-hover:scale-105'} transition-all duration-700`}
 						/>
 					</div>
 
@@ -87,9 +87,7 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
 						</div>
 					</div>
 					<div className="flex justify-between items-center">
-						<p className="text-[12px] font-sans text-[#8A8886] uppercase tracking-widest">
-							{product.category}
-						</p>
+						<p className="text-[12px] font-sans text-[#8A8886] uppercase tracking-widest">{product.category}</p>
 						<div className="flex items-center space-x-3">
 							{product.discount && !isOutOfStock && (
 								<span className="text-[9px] bg-red-900/20 text-red-400 px-2 py-0.5 rounded font-bold uppercase tracking-tighter">

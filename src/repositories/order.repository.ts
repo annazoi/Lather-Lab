@@ -76,6 +76,23 @@ export class OrderRepository {
     });
   }
 
+  async updatePaymentIntent(id: string, stripePaymentIntentId: string): Promise<Order> {
+    return prisma.order.update({
+      where: { id },
+      data: { stripePaymentIntentId }
+    });
+  }
+
+  async updatePaymentStatus(id: string, paymentStatus: string, status?: OrderStatus): Promise<Order> {
+    return prisma.order.update({
+      where: { id },
+      data: { 
+        paymentStatus,
+        ...(status && { status })
+      }
+    });
+  }
+
   async countOrders(where?: Prisma.OrderWhereInput): Promise<number> {
     return prisma.order.count({ where });
   }

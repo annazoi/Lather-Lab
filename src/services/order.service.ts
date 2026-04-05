@@ -45,6 +45,24 @@ export class OrderService {
       throw new Error('Could not place order');
     }
   }
+
+  async updatePaymentIntent(id: string, stripePaymentIntentId: string): Promise<Order> {
+    try {
+      return await orderRepository.updatePaymentIntent(id, stripePaymentIntentId);
+    } catch (error) {
+       console.error('[ORDER_SERVICE_ERROR]: Update payment intent failed', error);
+       throw new Error('Could not update payment info');
+    }
+  }
+
+  async updatePaymentStatus(id: string, paymentStatus: string, status?: OrderStatus): Promise<Order> {
+    try {
+      return await orderRepository.updatePaymentStatus(id, paymentStatus, status);
+    } catch (error) {
+       console.error('[ORDER_SERVICE_ERROR]: Update payment status failed', error);
+       throw new Error('Could not update payment status');
+    }
+  }
 }
 
 export const orderService = new OrderService();

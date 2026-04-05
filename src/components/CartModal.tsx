@@ -134,9 +134,22 @@ export const CartModal = () => {
 													<Plus size={12} />
 												</button>
 											</div>
-											<p className="text-[13px] font-bold text-[#F9F8F6]">
-												${(Number(item.price) * item.quantity).toFixed(2)}
-											</p>
+										<div className="flex flex-col items-end">
+											{item.discount ? (
+												<>
+													<p className="text-[13px] font-bold text-[#86967E]">
+														${((Number(item.price) * (1 - item.discount / 100)) * item.quantity).toFixed(2)}
+													</p>
+													<p className="text-[10px] text-stone-500 line-through opacity-60">
+														${(Number(item.price) * item.quantity).toFixed(2)}
+													</p>
+												</>
+											) : (
+												<p className="text-[13px] font-bold text-[#F9F8F6]">
+													${(Number(item.price) * item.quantity).toFixed(2)}
+												</p>
+											)}
+										</div>
 										</div>
 									</div>
 								</motion.div>
