@@ -107,7 +107,7 @@ export default function OrderDetailsButton({ order }: OrderDetailsProps) {
 								</div>
 
 								{/* Items Table */}
-								<div className="space-y-10">
+								<div className="space-y-5 mt-4">
 									<div className="flex items-center justify-between border-b border-[#363330] pb-6">
 										<div className="flex items-center gap-3">
 											<TrendingUp size={16} className="text-[#86967E]" />
@@ -191,7 +191,7 @@ export default function OrderDetailsButton({ order }: OrderDetailsProps) {
 								</div>
 
 								{/* Summary Section */}
-								<div className="bg-[#1C1917]/50 p-12 rounded-3xl border border-[#363330] space-y-10">
+								<div className="bg-[#1C1917]/50 p-6 rounded-3xl border border-[#363330] space-y-2 mt-2">
 									<div className="flex items-center gap-3">
 										<CreditCard size={16} className="text-[#86967E]" />
 										<h3 className="text-[11px] uppercase tracking-[0.4em] font-bold text-[#F9F8F6]">
